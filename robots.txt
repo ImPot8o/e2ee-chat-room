@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /home.html
+Disallow: /humans.txt
+Disallow: /script.js
+Disallow: /style.css
+
+User-agent: Googlebot
+Disallow: /
+
+User-agent: Bingbot
+Disallow: /
+
+Sitemap: https://www.ecmc.tk/sitemap.xml
