@@ -291,9 +291,212 @@ function _0x5a86(_0xb4951, _0xcad53b) { var _0x180fc5 = _0x180f(); return _0x5a8
     }
   });
 
+    // Event listener for the Online MC button
+    document.getElementById('omcbutton').addEventListener('click', function() {
+      var omcurlObj = new window.URL(window.location.href);
+      var omcurl = 'https://omc.pot8o.dev';
+      if (omcurl) {
+        // Use a different variable name for the window object
+        var omcWin;
+  
+        if (omcWin) {
+          omcWin.focus();
+        } else {
+          omcWin = window.open();
+          omcWin.document.body.style.margin = '0';
+          omcWin.document.body.style.height = '100vh';
+          var iframe = omcWin.document.createElement('iframe');
+          iframe.style.border = 'none';
+          iframe.style.width = '100%';
+          iframe.style.height = '100%';
+          iframe.style.margin = '0';
+          iframe.src = omcurl;
+          omcWin.document.body.appendChild(iframe);
+        }
+        // Use the getElementById method to select the button element
+        document.getElementById('omcbutton').style.background = '#ff5148';
+        document.getElementById('omcbutton').innerHTML = "Loaded!";
+        document.getElementById('omcbutton').disabled = true;
+      }
+    });
+
+    // Event listener for the mathgames66 button
+    document.getElementById('mathbutton').addEventListener('click', function() {
+      var mathurlObj = new window.URL(window.location.href);
+      var mathurl = 'https://math.pot8o.dev';
+      if (mathurl) {
+        // Use a different variable name for the window object
+        var mathWin;
+  
+        if (mathWin) {
+          mathWin.focus();
+        } else {
+          mathWin = window.open();
+          mathWin.document.body.style.margin = '0';
+          mathWin.document.body.style.height = '100vh';
+          var iframe = mathWin.document.createElement('iframe');
+          iframe.style.border = 'none';
+          iframe.style.width = '100%';
+          iframe.style.height = '100%';
+          iframe.style.margin = '0';
+          iframe.src = mathurl;
+          mathWin.document.body.appendChild(iframe);
+        }
+        // Use the getElementById method to select the button element
+        document.getElementById('mathbutton').style.background = '#ff5148';
+        document.getElementById('mathbutton').innerHTML = "Loaded!";
+        document.getElementById('mathbutton').disabled = true;
+      }
+    });
+
+    // Event listener for the nativegames-net button
+    document.getElementById('nativebutton').addEventListener('click', function() {
+      var nativeurlObj = new window.URL(window.location.href);
+      var nativeurl = 'https://native.pot8o.dev';
+      if (nativeurl) {
+        // Use a different variable name for the window object
+        var nativeWin;
+  
+        if (nativeWin) {
+          nativeWin.focus();
+        } else {
+          nativeWin = window.open();
+          nativeWin.document.body.style.margin = '0';
+          nativeWin.document.body.style.height = '100vh';
+          var iframe = nativeWin.document.createElement('iframe');
+          iframe.style.border = 'none';
+          iframe.style.width = '100%';
+          iframe.style.height = '100%';
+          iframe.style.margin = '0';
+          iframe.src = nativeurl;
+          nativeWin.document.body.appendChild(iframe);
+        }
+        // Use the getElementById method to select the button element
+        document.getElementById('nativebutton').style.background = '#ff5148';
+        document.getElementById('nativebutton').innerHTML = "Loaded!";
+        document.getElementById('nativebutton').disabled = true;
+      }
+    });
+
+    // Event listener for the radon games button
+    document.getElementById('radonbutton').addEventListener('click', function() {
+      var radonurlObj = new window.URL(window.location.href);
+      var radonurl = 'https://radon.pot8o.dev';
+      if (radonurl) {
+        // Use a different variable name for the window object
+        var radonWin;
+  
+        if (radonWin) {
+          radonWin.focus();
+        } else {
+          radonWin = window.open();
+          radonWin.document.body.style.margin = '0';
+          radonWin.document.body.style.height = '100vh';
+          var iframe = radonWin.document.createElement('iframe');
+          iframe.style.border = 'none';
+          iframe.style.width = '100%';
+          iframe.style.height = '100%';
+          iframe.style.margin = '0';
+          iframe.src = radonurl;
+          radonWin.document.body.appendChild(iframe);
+        }
+        // Use the getElementById method to select the button element
+        document.getElementById('radonbutton').style.background = '#ff5148';
+        document.getElementById('radonbutton').innerHTML = "Loaded!";
+        document.getElementById('radonbutton').disabled = true;
+      }
+    });
+
+    // Event listener for the outred games button
+    document.getElementById('outredbutton').addEventListener('click', function() {
+      var outredurlObj = new window.URL(window.location.href);
+      var outredurl = 'https://outred.pot8o.dev';
+      if (outredurl) {
+        // Use a different variable name for the window object
+        var outredWin;
+  
+        if (outredWin) {
+          outredWin.focus();
+        } else {
+          outredWin = window.open();
+          outredWin.document.body.style.margin = '0';
+          outredWin.document.body.style.height = '100vh';
+          var iframe = outredWin.document.createElement('iframe');
+          iframe.style.border = 'none';
+          iframe.style.width = '100%';
+          iframe.style.height = '100%';
+          iframe.style.margin = '0';
+          iframe.src = outredurl;
+          outredWin.document.body.appendChild(iframe);
+        }
+        // Use the getElementById method to select the button element
+        document.getElementById('outredbutton').style.background = '#ff5148';
+        document.getElementById('outredbutton').innerHTML = "Loaded!";
+        document.getElementById('outredbutton').disabled = true;
+      }
+    });
+
+    // Event listener for the hell games button
+    document.getElementById('hellbutton').addEventListener('click', function() {
+      var hellurlObj = new window.URL(window.location.href);
+      var hellurl = 'https://hell.pot8o.dev';
+      if (hellurl) {
+        // Use a different variable name for the window object
+        var hellWin;
+  
+        if (hellWin) {
+          hellWin.focus();
+        } else {
+          hellWin = window.open();
+          hellWin.document.body.style.margin = '0';
+          hellWin.document.body.style.height = '100vh';
+          var iframe = hellWin.document.createElement('iframe');
+          iframe.style.border = 'none';
+          iframe.style.width = '100%';
+          iframe.style.height = '100%';
+          iframe.style.margin = '0';
+          iframe.src = hellurl;
+          hellWin.document.body.appendChild(iframe);
+        }
+        // Use the getElementById method to select the button element
+        document.getElementById('hellbutton').style.background = '#ff5148';
+        document.getElementById('hellbutton').innerHTML = "Loaded!";
+        document.getElementById('hellbutton').disabled = true;
+      }
+    });
+    
 }
 
       /* Emulator Buttons*/{
+  // Event listener for the Emulatorjs button
+  document.getElementById('emubutton').addEventListener('click', function() {
+    var emuurlObj = new window.URL(window.location.href);
+    var emuurl = 'https://emu.pot8o.dev';
+    if (emuurl) {
+      // Use a different variable name for the window object
+      var emuWin;
+
+      if (emuWin) {
+        emuWin.focus();
+      } else {
+        emuWin = window.open();
+        emuWin.document.body.style.margin = '0';
+        emuWin.document.body.style.height = '100vh';
+        var iframe = emuWin.document.createElement('iframe');
+        iframe.style.border = 'none';
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.margin = '0';
+        iframe.src = emuurl;
+        emuWin.document.body.appendChild(iframe);
+      }
+      // Use the getElementById method to select the button element
+      document.getElementById('emubutton').style.background = '#ff5148';
+      document.getElementById('emubutton').innerHTML = "Loaded!";
+      document.getElementById('emubutton').disabled = true;
+    }
+  });
+
   // Event listener for the Ocarina of Time button
   document.getElementById('ootbutton').addEventListener('click', function() {
     var ooturlObj = new window.URL(window.location.href);
@@ -438,35 +641,6 @@ document.getElementById('re2button').addEventListener('click', function() {
     document.getElementById('re2button').innerHTML = "Loaded!";
     document.getElementById('re2button').disabled = true;
   }
-})
-
-// Event listener for the Online Minecraft button
-document.getElementById('omcbutton').addEventListener('click', function() {
-  var omcurlObj = new window.URL(window.location.href);
-  var omcurl = 'https://omc.pot8o.dev';
-  if (omcurl) {
-    // Use a different variable name for the window object
-    var omcWin;
-
-    if (omcWin) {
-      omcWin.focus();
-    } else {
-      omcWin = window.open();
-      omcWin.document.body.style.margin = '0';
-      omcWin.document.body.style.height = '100vh';
-      var iframe = omcWin.document.createElement('iframe');
-      iframe.style.border = 'none';
-      iframe.style.width = '100%';
-      iframe.style.height = '100%';
-      iframe.style.margin = '0';
-      iframe.src = omcurl;
-      omcWin.document.body.appendChild(iframe);
-    }
-    // Use the getElementById method to select the button element
-    document.getElementById('omcbutton').style.background = '#ff5148';
-    document.getElementById('omcbutton').innerHTML = "Loaded!";
-    document.getElementById('omcbutton').disabled = true;
-  }
 });
 
 
@@ -530,34 +704,34 @@ document.getElementById('omcbutton').addEventListener('click', function() {
     }
   });
 
-  // Event listener for the Nebula button
-  document.getElementById('gmbutton').addEventListener('click', function() {
-    var nurlObj = new window.URL(window.location.href);
-    var nurl = 'https://gm.pot8o.dev';
-    if (nurl) {
-      // Use a different variable name for the window object
-      var nWin;
+  // // Event listener for the Nebula button
+  // document.getElementById('gmbutton').addEventListener('click', function() {
+  //   var nurlObj = new window.URL(window.location.href);
+  //   var nurl = 'https://gm.pot8o.dev';
+  //   if (nurl) {
+  //     // Use a different variable name for the window object
+  //     var nWin;
 
-      if (nWin) {
-        nWin.focus();
-      } else {
-        nWin = window.open();
-        nWin.document.body.style.margin = '0';
-        nWin.document.body.style.height = '100vh';
-        var iframe = nWin.document.createElement('iframe');
-        iframe.style.border = 'none';
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.margin = '0';
-        iframe.src = nurl;
-        nWin.document.body.appendChild(iframe);
-      }
-      // Use the getElementById method to select the button element
-      document.getElementById('gmbutton').style.background = '#ff5148';
-      document.getElementById('gmbutton').innerHTML = "Loaded!";
-      document.getElementById('gmbutton').disabled = true;
-    }
-  })
+  //     if (nWin) {
+  //       nWin.focus();
+  //     } else {
+  //       nWin = window.open();
+  //       nWin.document.body.style.margin = '0';
+  //       nWin.document.body.style.height = '100vh';
+  //       var iframe = nWin.document.createElement('iframe');
+  //       iframe.style.border = 'none';
+  //       iframe.style.width = '100%';
+  //       iframe.style.height = '100%';
+  //       iframe.style.margin = '0';
+  //       iframe.src = nurl;
+  //       nWin.document.body.appendChild(iframe);
+  //     }
+  //     // Use the getElementById method to select the button element
+  //     document.getElementById('gmbutton').style.background = '#ff5148';
+  //     document.getElementById('gmbutton').innerHTML = "Loaded!";
+  //     document.getElementById('gmbutton').disabled = true;
+  //   }
+  // });
 
   // Event listener for the HACKERS-X button
   document.getElementById('hxbutton').addEventListener('click', function() {
@@ -587,6 +761,94 @@ document.getElementById('omcbutton').addEventListener('click', function() {
       document.getElementById('hxbutton').disabled = true;
     }
   });
+
+  // Event listener for the Ludicrous button
+  document.getElementById('ludbutton').addEventListener('click', function() {
+    var ludurlObj = new window.URL(window.location.href);
+    var ludurl = 'https://lud.pot8o.dev';
+    if (ludurl) {
+      // Use a different variable name for the window object
+      var ludWin;
+
+      if (ludWin) {
+        ludWin.focus();
+      } else {
+        ludWin = window.open();
+        ludWin.document.body.style.margin = '0';
+        ludWin.document.body.style.height = '100vh';
+        var iframe = ludWin.document.createElement('iframe');
+        iframe.style.border = 'none';
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.margin = '0';
+        iframe.src = ludurl;
+        ludWin.document.body.appendChild(iframe);
+      }
+      // Use the getElementById method to select the button element
+      document.getElementById('ludbutton').style.background = '#ff5148';
+      document.getElementById('ludbutton').innerHTML = "Loaded!";
+      document.getElementById('ludbutton').disabled = true;
+    }
+  });
+
+  // Event listener for the Intersteller button
+  document.getElementById('interbutton').addEventListener('click', function() {
+    var interurlObj = new window.URL(window.location.href);
+    var interurl = 'https://inter.pot8o.dev';
+    if (interurl) {
+      // Use a different variable name for the window object
+      var interWin;
+
+      if (interWin) {
+        interWin.focus();
+      } else {
+        interWin = window.open();
+        interWin.document.body.style.margin = '0';
+        interWin.document.body.style.height = '100vh';
+        var iframe = interWin.document.createElement('iframe');
+        iframe.style.border = 'none';
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.margin = '0';
+        iframe.src = interurl;
+        interWin.document.body.appendChild(iframe);
+      }
+      // Use the getElementById method to select the button element
+      document.getElementById('interbutton').style.background = '#ff5148';
+      document.getElementById('interbutton').innerHTML = "Loaded!";
+      document.getElementById('interbutton').disabled = true;
+    }
+  });
+
+  // Event listener for the ubapi button
+  document.getElementById('ubapibutton').addEventListener('click', function() {
+    var ubapiurlObj = new window.URL(window.location.href);
+    var ubapiurl = 'https://ubapi.pot8o.dev';
+    if (ubapiurl) {
+      // Use a different variable name for the window object
+      var ubapiWin;
+
+      if (ubapiWin) {
+        ubapiWin.focus();
+      } else {
+        ubapiWin = window.open();
+        ubapiWin.document.body.style.margin = '0';
+        ubapiWin.document.body.style.height = '100vh';
+        var iframe = ubapiWin.document.createElement('iframe');
+        iframe.style.border = 'none';
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.margin = '0';
+        iframe.src = ubapiurl;
+        ubapiWin.document.body.appendChild(iframe);
+      }
+      // Use the getElementById method to select the button element
+      document.getElementById('ubapibutton').style.background = '#ff5148';
+      document.getElementById('ubapibutton').innerHTML = "Loaded!";
+      document.getElementById('ubapibutton').disabled = true;
+    }
+  });
+
 }
 
 
