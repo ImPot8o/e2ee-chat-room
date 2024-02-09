@@ -5,9 +5,63 @@ Disallow: /script.js
 Disallow: /style.css
 
 User-agent: Googlebot
-Disallow: /
+Allow: /
+Allow: /?z
+Allow: /?faq
+Allow: /?y
+Allow: /?d
+Allow: /?g
+Allow: /?c
+Allow: /?in
 
 User-agent: Bingbot
-Disallow: /
+Allow: /
+Allow: /?z
+Allow: /?faq
+Allow: /?y
+Allow: /?d
+Allow: /?g
+Allow: /?c
+Allow: /?in
+
+User-agent: Slurp
+Allow: /
+Allow: /?z
+Allow: /?faq
+Allow: /?y
+Allow: /?d
+Allow: /?g
+Allow: /?c
+Allow: /?in
+
+User-agent: DuckDuckBot
+Allow: /
+Allow: /?z
+Allow: /?faq
+Allow: /?y
+Allow: /?d
+Allow: /?g
+Allow: /?c
+Allow: /?in
+
+User-agent: Baiduspider
+Allow: /
+Allow: /?z
+Allow: /?faq
+Allow: /?y
+Allow: /?d
+Allow: /?g
+Allow: /?c
+Allow: /?in
+
+User-agent: YandexBot
+Allow: /
+Allow: /?z
+Allow: /?faq
+Allow: /?y
+Allow: /?d
+Allow: /?g
+Allow: /?c
+Allow: /?in
 
 Sitemap: https://www.ecmc.tk/sitemap.xml
