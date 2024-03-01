@@ -851,8 +851,8 @@ document.getElementById('re2button').addEventListener('click', function() {
 
 }
 
-
-      /* about:blank openers */{
+      /* tools */{
+      // about:blank openers
 
   // Show the input container
   let isclicked = false;
