@@ -125,7 +125,7 @@ hr{
  --glow-color: #ccc;
  --glow-spread-color: #cc8b00;
  --enhanced-glow-color: #cc8b00;
- --btn-color: #12001F;
+ --btn-color: #1E082E;
  color: var(--glow-color);
  font-size: 13px;
  background-color: var(--btn-color);
@@ -176,7 +176,7 @@ hr{
 }
 
 .goto {
-  background-color: #12001F;
+  background-color: #1E082E;
   color: none;
   padding: 7px 9px;
   font-size: 12px;
@@ -189,12 +189,12 @@ hr{
   border: 2px;
   border-color: #ccc;
   color: #ccc;
-  background-color: #12001F;
+  background-color: #1E082E;
 }
 
 .goto:hover{
   background-color: #cc8b00 ;
-  color: #12001F;
+  color: #1E082E;
 }
 
 iframe {
@@ -244,7 +244,7 @@ ul {
 }
 
 .txtbx {
-  background-color: #12001F;
+  background-color: #1E082E;
   border: none;
   padding: 7px 14px;
   border-radius: 3px;
@@ -252,7 +252,7 @@ ul {
 
 .btn {
   border: 2px solid black;
-  background-color: #12001F;
+  background-color: #1E082E;
   border: none;
   color: none;
   padding: 7px 14px;
@@ -266,14 +266,14 @@ ul {
   border: 2px;
   border-color: #ccc;
   color: #ccc;
-  background-color: #12001F;
+  background-color: #1E082E;
 }
 
 .butn:hover {
 /*   border: 1px solid;
   border-color: #cc8b00; */
   background-color: #cc8b00 ;
-  color: #12001F;
+  color: #1E082E;
 }
 
 .nocenter{
@@ -289,7 +289,7 @@ ul {
 .ddm{
   appearance: none;
   border: 2px solid black;
-  background-color: #12001F;
+  background-color: #1E082E;
   color: none;
   padding: 7px 14px;
   font-size: 12px;
@@ -303,14 +303,14 @@ ul {
   border: 2px;
   border-color: #ccc;
   color: #ccc;
-  background-color: #12001F;
+  background-color: #1E082E;
 }
 
 .drdm:hover {
 /*   border: 1px solid;
   border-color: #cc8b00; */
   background-color: #cc8b00 ;
-  color: #12001F;
+  color: #1E082E;
 }
 
 drdm::before {
@@ -333,7 +333,7 @@ input[type="submit"] {
   padding-bottom: 3px;
   font-family: "Kanit", sans-serif !important;
   background-color: #cc8b00;
-  color: #12001F;
+  color: #1E082E;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
