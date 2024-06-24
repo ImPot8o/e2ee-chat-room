@@ -1,4 +1,4 @@
-/* Media queries for responsive form centering */
+/* Center the form on mobile devices */
 @media (max-width: 600px) {
   form {
     margin: 0 auto;
@@ -6,6 +6,7 @@
   }
 }
 
+/* Center the form on widescreen devices */
 @media (min-width: 601px) {
   form {
     margin: auto;
@@ -13,14 +14,12 @@
   }
 }
 
-/* Typography and colors */
 .h3cl {
   font-weight: bold;
   font-size: 20px;
   color: #cc8b00;
 }
 
-/* Dropdown and button styles */
 .drpdm, .blutn {
   padding: 0.5em 2em 0.5em 2.5em;
   font-weight: 600;
@@ -36,12 +35,10 @@
   transform: translateY(1px);
 }
 
-/* Horizontal rule */
 hr {
   width: 30%;
 }
 
-/* Positioning and visibility */
 #remove-iframes {
   z-index: 200;
   visibility: hidden;
@@ -63,7 +60,6 @@ hr {
   right: 30px;
 }
 
-/* Button glow effect */
 .butt {
   --glow-color: #cc8b00;
   --btn-color: #312c20;
@@ -102,7 +98,6 @@ hr {
   box-shadow: 0 0 0.6em .25em var(--glow-color), inset 0 0 .5em .25em var(--glow-color);
 }
 
-/* Input glow effect */
 .inputt {
   --glow-color: #ccc;
   --glow-spread-color: #cc8b00;
@@ -119,7 +114,6 @@ hr {
   box-shadow: 0 0 .75em 0em var(--glow-spread-color);
 }
 
-/* Fade-in effect */
 .fade-in {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
@@ -129,7 +123,6 @@ hr {
   opacity: 1;
 }
 
-/* Vertical centering */
 .centvert {
   transform: translateY(250%);
 }
@@ -138,22 +131,18 @@ hr {
   transform: translateY(75%);
 }
 
-/* Small label */
 .smallabel {
   font-size: 8px;
 }
 
-/* Paragraph line height */
 .p2 {
   line-height: 2;
 }
 
-/* Margin below buttons */
 .belowbtttn {
   margin-bottom: 5px;
 }
 
-/* General button styles */
 .goto, .btn, .butn, .drdm {
   background-color: #1E082E;
   padding: 7px 14px;
@@ -169,7 +158,6 @@ hr {
   color: #1E082E;
 }
 
-/* Iframe styles */
 iframe {
   position: relative;
   z-index: 100;
@@ -178,7 +166,6 @@ iframe {
   border: 0;
 }
 
-/* Body and typography */
 body {
   background-color: #06000a;
   color: #f0ad4e;
@@ -206,7 +193,6 @@ ul {
   list-style-type: none;
 }
 
-/* Text input styles */
 .txtbx {
   background-color: #1E082E;
   border: none;
@@ -215,7 +201,6 @@ ul {
   color: #ccc;
 }
 
-/* Submit button */
 input[type="submit"] {
   padding: 3px 5px;
   font-family: "Kanit", sans-serif !important;
@@ -224,13 +209,11 @@ input[type="submit"] {
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Rounded elements */
 .rounded {
   border-radius: 10px !important;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* General input styles */
 input, input::placeholder {
   font-family: "Kanit", sans-serif !important;
   background-color: #333;
