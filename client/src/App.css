@@ -1,0 +1,94 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.app {
+  background-color: #222;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.messages-container {
+  width: 100%;
+  max-width: 1200px;
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+  margin-bottom: 20px;
+  border: 1px solid #444;
+  padding: 10px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+.settings-container {
+  position: relative;
+}
+
+.settings-button {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.settings-popup {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  background-color: #333;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+form {
+  display: flex;
+  flex: 1;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 10px;
+  background-color: #444;
+  color: #fff;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}

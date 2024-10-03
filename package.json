@@ -1,12 +1,29 @@
 {
-  "name": "loginpage",
+  "name": "e2ewebsite",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ImPot8o/pot8o.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ImPot8o/pot8o/issues"
+  },
+  "homepage": "https://github.com/ImPot8o/pot8o#readme",
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "express": "^4.21.0",
+    "libsodium-wrappers": "^0.7.15",
+    "socket.io": "^4.8.0",
+    "winston": "^3.14.2",
+    "winston-daily-rotate-file": "^5.0.0",
+    "ws": "^8.18.0"
+  },
   "description": ""
 }
