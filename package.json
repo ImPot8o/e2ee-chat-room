@@ -21,6 +21,7 @@
     "express": "^4.21.0",
     "libsodium-wrappers": "^0.7.15",
     "socket.io": "^4.8.0",
+    "winston": "^3.14.2",
     "ws": "^8.18.0"
   },
   "description": ""
