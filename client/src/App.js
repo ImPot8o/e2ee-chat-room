@@ -25,6 +25,7 @@ const [encryptionKey, setEncryptionKey] = useState('secret-key');
 const [keyInput, setKeyInput] = useState('');
 const [showSettings, setShowSettings] = useState(false);
 const [userId, setUserId] = useState('');
+console.log(userId);
 const messagesEndRef = useRef(null);
 const settingsRef = useRef(null);
 
