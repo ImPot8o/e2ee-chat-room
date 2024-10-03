@@ -1,85 +1,94 @@
-/* General Styles */
 body {
-  background-color: #121212;
-  color: #ffffff;
-  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  overflow: hidden;
+}
+
+.app {
+  background-color: #222;
+  color: #fff;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100vh;
-}
-
-/* Container */
-div {
-  background-color: #1e1e1e;
+  justify-content: center;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  width: 80%;
-  max-width: 600px;
 }
 
-/* Header */
-h1 {
-  color: #bb86fc;
-  text-align: center;
+.messages-container {
+  width: 100%;
+  max-width: 1200px;
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+  margin-bottom: 20px;
+  border: 1px solid #444;
+  padding: 10px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
   margin-bottom: 20px;
 }
 
-/* Messages */
-div > div {
-  background-color: #2e2e2e;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+.settings-container {
+  position: relative;
 }
 
-/* Form */
+.settings-button {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.settings-popup {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  background-color: #333;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
 form {
   display: flex;
-  margin-top: 20px;
+  flex: 1;
 }
 
 input[type="text"] {
   flex: 1;
   padding: 10px;
-  border: 1px solid #444;
+  font-size: 16px;
+  border: none;
   border-radius: 4px;
-  background-color: #333;
-  color: #ffffff;
-  outline: none;
+  margin-right: 10px;
+  background-color: #444;
+  color: #fff;
 }
 
 button {
   padding: 10px 20px;
+  font-size: 16px;
   border: none;
   border-radius: 4px;
-  background-color: #bb86fc;
-  color: #ffffff;
+  background-color: #007bff;
+  color: #fff;
   cursor: pointer;
-  margin-left: 10px;
-  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #9c66e0;
-}
-
-/* Key Input Section */
-div > div:last-child {
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-}
-
-div > div:last-child input[type="text"] {
-  flex: 1;
-  margin-right: 10px;
-}
-
-div > div:last-child button {
-  margin-left: 0;
+  background-color: #0056b3;
 }
