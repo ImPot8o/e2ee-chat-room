@@ -122,11 +122,11 @@ const App = () => {
 
     // Listen for 'user id' event from the server
     socket.on('user id', (id) => {
-      const storedUsername = sessionStorage.getItem('username');
+      const storedUsername = localStorage.getItem('username');
       if (!storedUsername) {
         // If no username is stored, set the received id as username
         setUserId(id);
-        sessionStorage.setItem('username', id);
+        localStorage.setItem('username', id);
         // Notify the server that the username has been set
         socket.emit('set username', id);
       } else {
@@ -141,7 +141,7 @@ const App = () => {
     // Listen for 'username set' confirmation from the server
     socket.on('username set', (username) => {
       setUserId(username);
-      sessionStorage.setItem('username', username);
+      localStorage.setItem('username', username);
       setLoadingUsername(false);
     });
 
@@ -171,9 +171,9 @@ const App = () => {
     };
   }, []);
 
-  // On component mount, check if a username exists in sessionStorage and set it
+  // On component mount, check if a username exists in localStorage and set it
   useEffect(() => {
-    const storedUsername = sessionStorage.getItem('username');
+    const storedUsername = localStorage.getItem('username');
     if (storedUsername) {
       setUserId(storedUsername);
       socket.emit('set username', storedUsername);
