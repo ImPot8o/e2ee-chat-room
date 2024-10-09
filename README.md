@@ -1,3 +1,6 @@
+## **About**
+Simple E2EE chat room I made. the subdirectory you put (chat.pot8o.dev/subdirectory) will dynamically generate a new chat room. If you and a person in the chat room have the same encryption key you will be able to see each other's messages. Usernames are stored in cookies and are mostly persistant.
+
 ## **Run locally**
 
 install dependencies however you do that
