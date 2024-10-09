@@ -193,7 +193,7 @@ button:disabled {
     height: calc(100vh - 300px);
   }
   .settings-popup {
-    width: 200px;
+    width: 220px;
   }
 }
 
@@ -201,28 +201,10 @@ button:disabled {
   .messages-container {
     height: calc(100vh - 350px);
   }
-  .settings-popup {
-    width: 150px;
-  }
-  .settings-popup input {
-    padding: 6px;
-  }
-  .settings-popup button {
-    padding: 6px;
-  }
 }
 
 @media only screen and (max-width: 480px) {
   .messages-container {
     height: calc(100vh - 400px);
-  }
-  .settings-popup {
-    width: 120px;
-  }
-  .settings-popup input {
-    padding: 4px;
-  }
-  .settings-popup button {
-    padding: 4px;
   }
 }
