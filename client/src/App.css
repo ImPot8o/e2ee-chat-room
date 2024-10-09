@@ -1,5 +1,3 @@
-/* App.css */
-
 body {
   margin: 0;
   padding: 0;
@@ -37,7 +35,7 @@ header h2 {
 .messages-container {
   width: 100%;
   max-width: 1200px;
-  height: calc(100vh - 200px);
+  height: calc(100vh - 250px);
   overflow-y: auto;
   margin-bottom: 20px;
   border: 1px solid #444;
@@ -188,69 +186,43 @@ button:disabled {
   text-align: center;
 }
 
-/* App.css */
+/* Media Queries */
 
-body, html {
-  height: 100%; /* Ensures that the HTML and body tag cover the entire height of the viewport */
-  margin: 0;
-  padding: 0;
-  overflow: hidden; /* Prevent scrolling on the entire document */
-}
-
-.app {
-  background-color: #222;
-  color: #fff;
-  height: 100%; /* This change ensures that app does not exceed the viewport height */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  box-sizing: border-box; /* Ensures padding is included in the height */
-}
-
-.header, .input-container, .messages-container {
-  width: 100%; /* Ensures these elements do not exceed their container's width */
-  max-width: 600px; /* Reducing max width for better appearance on mobile */
-  box-sizing: border-box; /* Ensures padding and border are included in the width */
-}
-
-.messages-container {
-  height: 50vh; /* Adjusting height dynamically relative to the viewport */
-  overflow-y: auto; /* Allow scrolling within the messages container only if needed */
-  padding: 5px 10px; /* Adjust padding */
-}
-
-.settings-popup {
-  position: absolute;
-  bottom: 10px; /* Position it closer to the settings button */
-  left: 50%;
-  transform: translateX(-50%); /* Center align the popup */
-  width: calc(100% - 20px); /* Make the width responsive */
-  max-width: 300px; /* Maximum width */
-  z-index: 100;
-  overflow: hidden; /* Hide overflow */
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .app {
-    justify-content: flex-start;  /* Adjust content alignment on smaller screens */
-    padding: 10px; /* Reduce padding */
+@media only screen and (max-width: 768px) {
+  .messages-container {
+    height: calc(100vh - 300px);
   }
-
-  .input-container, .messages-container {
-    max-width: 100%; /* Allow these elements to fill the screen on smaller devices */
-  }
-
   .settings-popup {
-    max-width: 90%; /* Increase maximum width percentage for better fit */
+    width: 200px;
   }
 }
 
-@media (max-width: 480px) {
+@media only screen and (max-width: 600px) {
+  .messages-container {
+    height: calc(100vh - 350px);
+  }
   .settings-popup {
-    padding: 5px; /* Reduce padding inside the popup for more space */
-    font-size: 14px; /* Adjust font size for better readability */
+    width: 150px;
+  }
+  .settings-popup input {
+    padding: 6px;
+  }
+  .settings-popup button {
+    padding: 6px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .messages-container {
+    height: calc(100vh - 400px);
+  }
+  .settings-popup {
+    width: 120px;
+  }
+  .settings-popup input {
+    padding: 4px;
+  }
+  .settings-popup button {
+    padding: 4px;
   }
 }
