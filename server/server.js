@@ -21,26 +21,28 @@ const logFormat = format.combine(
     })
 );
 
-const messageLogger = enableLogging ? winston.createLogger({
-    level: 'info',
-    format: logFormat,
-    transports: [
-        new DailyRotateFile({
-            filename: 'logs/messages-%DATE%.log',
-            datePattern: 'YYYY-MM-DD',
-            maxSize: '10m',
-            maxFiles: '14d',
-        }),
-    ],
-}) : null;
+const messageLogger = enableLogging
+    ? winston.createLogger({
+          level: 'info',
+          format: logFormat,
+          transports: [
+              new DailyRotateFile({
+                  filename: 'logs/messages-%DATE%.log',
+                  datePattern: 'YYYY-MM-DD',
+                  maxSize: '10m',
+                  maxFiles: '14d',
+              }),
+          ],
+      })
+    : null;
 
-const consoleLogger = enableLogging ? winston.createLogger({
-    level: 'info',
-    format: logFormat,
-    transports: [
-        new winston.transports.Console(),
-    ],
-}) : null;
+const consoleLogger = enableLogging
+    ? winston.createLogger({
+          level: 'info',
+          format: logFormat,
+          transports: [new winston.transports.Console()],
+      })
+    : null;
 
 // ------------------- Serve Static Files -------------------
 app.use(express.static(path.join(__dirname, '../client/build')));
@@ -117,7 +119,7 @@ const realNames = [
 function generateUsername() {
     const randomIndex = Math.floor(Math.random() * realNames.length);
     const selectedName = realNames[randomIndex];
-    
+
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -129,14 +131,39 @@ function generateUsername() {
 // ------------------- Active Usernames Tracking -------------------
 const activeUsernames = new Map(); // Maps username to number of active connections
 
+// ------------------- Input Validation -------------------
+function getSanitizedRoomName(rawRoom) {
+    const pattern = /^[a-zA-Z0-9_-]{1,30}$/;
+    if (pattern.test(rawRoom)) {
+        return rawRoom;
+    } else {
+        return 'default';
+    }
+}
+
+// ------------------- Rate Limiting Setup -------------------
+const MESSAGE_RATE_LIMIT = 10; // Max messages allowed
+const MESSAGE_RATE_DURATION = 10 * 1000; // Duration in milliseconds (10 seconds)
+
 // ------------------- Socket.io Connection Handling -------------------
 io.on('connection', (socket) => {
-    const room = socket.handshake.query.room || 'default';
+    const rawRoom = socket.handshake.query.room || 'default';
+    const room = getSanitizedRoomName(rawRoom);
     socket.join(room);
 
     // Assign and emit a generated username to the client
     const generatedUsername = generateUsername();
+    socket.username = generatedUsername;
     socket.emit('user id', generatedUsername);
+
+    // Notify others in the room
+    socket.to(room).emit('chat message', {
+        userId: 'Server',
+        message: `${socket.username} has joined the chat.`,
+    });
+
+    // Rate limiting data structure
+    socket.messageTimes = [];
 
     // Handle 'set username' event from the client
     socket.on('set username', (desiredUsername) => {
@@ -145,7 +172,10 @@ io.on('connection', (socket) => {
             const newUsername = generateUsername();
             socket.username = newUsername;
             if (activeUsernames.has(newUsername)) {
-                activeUsernames.set(newUsername, activeUsernames.get(newUsername) + 1);
+                activeUsernames.set(
+                    newUsername,
+                    activeUsernames.get(newUsername) + 1
+                );
             } else {
                 activeUsernames.set(newUsername, 1);
             }
@@ -156,7 +186,10 @@ io.on('connection', (socket) => {
             }
 
             // Notify others in the room
-            socket.to(room).emit('chat message', { userId: 'Server', message: `${socket.username} has joined the chat.` });
+            socket.to(room).emit('chat message', {
+                userId: 'Server',
+                message: `${socket.username} has joined the chat.`,
+            });
             return;
         }
 
@@ -165,7 +198,10 @@ io.on('connection', (socket) => {
             const newUsername = generateUsername();
             socket.username = newUsername;
             if (activeUsernames.has(newUsername)) {
-                activeUsernames.set(newUsername, activeUsernames.get(newUsername) + 1);
+                activeUsernames.set(
+                    newUsername,
+                    activeUsernames.get(newUsername) + 1
+                );
             } else {
                 activeUsernames.set(newUsername, 1);
             }
@@ -176,25 +212,36 @@ io.on('connection', (socket) => {
             }
 
             // Notify others in the room
-            socket.to(room).emit('chat message', { userId: 'Server', message: `${newUsername} has joined the chat.` });
+            socket.to(room).emit('chat message', {
+                userId: 'Server',
+                message: `${newUsername} has joined the chat.`,
+            });
             return;
         }
 
         // Assign desired username
         socket.username = desiredUsername;
         if (activeUsernames.has(desiredUsername)) {
-            activeUsernames.set(desiredUsername, activeUsernames.get(desiredUsername) + 1);
+            activeUsernames.set(
+                desiredUsername,
+                activeUsernames.get(desiredUsername) + 1
+            );
         } else {
             activeUsernames.set(desiredUsername, 1);
         }
         socket.emit('username set', desiredUsername);
 
         if (enableLogging) {
-            consoleLogger.info(`${desiredUsername} connected to room ${room}`);
+            consoleLogger.info(
+                `${desiredUsername} connected to room ${room}`
+            );
         }
 
         // Notify others in the room
-        socket.to(room).emit('chat message', { userId: 'Server', message: `${desiredUsername} has joined the chat.` });
+        socket.to(room).emit('chat message', {
+            userId: 'Server',
+            message: `${desiredUsername} has joined the chat.`,
+        });
     });
 
     // Handle incoming chat messages
@@ -204,12 +251,30 @@ io.on('connection', (socket) => {
             return;
         }
 
+        // Rate limiting
+        const currentTime = Date.now();
+        socket.messageTimes = socket.messageTimes.filter(
+            (time) => currentTime - time < MESSAGE_RATE_DURATION
+        );
+        if (socket.messageTimes.length >= MESSAGE_RATE_LIMIT) {
+            // Exceeded rate limit
+            socket.emit(
+                'error message',
+                'You are sending messages too quickly.'
+            );
+            return;
+        }
+        socket.messageTimes.push(currentTime);
+
         if (enableLogging) {
             messageLogger.info(`${room} - ${socket.username}: ${msg}`);
         }
 
         // Broadcast the encrypted message to the room
-        io.to(room).emit('chat message', { userId: socket.username, message: msg });
+        io.to(room).emit('chat message', {
+            userId: socket.username,
+            message: msg,
+        });
     });
 
     // Handle disconnection
@@ -227,7 +292,10 @@ io.on('connection', (socket) => {
                 consoleLogger.info(`${socket.username} disconnected`);
             }
             // Notify others in the room
-            socket.to(room).emit('chat message', { userId: 'Server', message: `${socket.username} has left the chat.` });
+            socket.to(room).emit('chat message', {
+                userId: 'Server',
+                message: `${socket.username} has left the chat.`,
+            });
         }
     });
 });
@@ -236,5 +304,7 @@ const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     if (enableLogging) {
         consoleLogger.info(`Server is running on port ${PORT}`);
+    } else {
+        console.log(`Server is running on port ${PORT}`);
     }
 });
