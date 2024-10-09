@@ -1,3 +1,5 @@
+/* App.css */
+
 body {
   margin: 0;
   padding: 0;
@@ -15,6 +17,22 @@ body {
   padding: 20px;
 }
 
+header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2em;
+}
+
+header h2 {
+  margin: 5px 0 0 0;
+  font-size: 1.2em;
+  color: #aaa;
+}
+
 .messages-container {
   width: 100%;
   max-width: 1200px;
@@ -25,11 +43,25 @@ body {
   padding: 10px;
   display: flex;
   flex-direction: column-reverse;
+  background-color: #333;
+  border-radius: 5px;
 }
 
 .messages {
   display: flex;
   flex-direction: column;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #444;
+}
+
+.own-message {
+  align-self: flex-end;
+  background-color: #007bff;
 }
 
 .input-container {
@@ -42,6 +74,7 @@ body {
 
 .settings-container {
   position: relative;
+  margin-right: 10px;
 }
 
 .settings-button {
@@ -61,6 +94,55 @@ body {
   padding: 10px;
   border-radius: 4px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  width: 250px;
+  z-index: 100;
+}
+
+.settings-popup h3 {
+  margin-top: 0;
+  color: #fff;
+  font-size: 1em;
+  text-align: center;
+}
+
+.settings-popup input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background-color: #555;
+  color: #fff;
+}
+
+.settings-popup button {
+  width: 48%;
+  padding: 8px;
+  margin-right: 4%;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.settings-popup button:last-child {
+  margin-right: 0;
+  background-color: #555;
+  color: #fff;
+}
+
+.settings-popup button:first-child {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.settings-popup button:hover:first-child {
+  background-color: #0056b3;
+}
+
+.settings-popup button:hover:last-child {
+  background-color: #666;
 }
 
 form {
@@ -68,7 +150,7 @@ form {
   flex: 1;
 }
 
-input[type="text"] {
+input[type="text"], input[type="password"] {
   flex: 1;
   padding: 10px;
   font-size: 16px;
@@ -91,4 +173,16 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: center;
 }
