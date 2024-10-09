@@ -123,7 +123,6 @@ function generateUsername() {
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
     const timestamp = `${year}${month}${day}`;
-    
     return `${selectedName}-${timestamp}`;
 }
 
@@ -157,7 +156,7 @@ io.on('connection', (socket) => {
             }
 
             // Notify others in the room
-            socket.to(room).emit('chat message', { userId: 'Server', message: `${newUsername} has joined the chat.` });
+            socket.to(room).emit('chat message', { userId: 'Server', message: `${socket.username} has joined the chat.` });
             return;
         }
 

@@ -3,14 +3,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import CryptoJS from 'crypto-js';
-import Cookies from 'js-cookie'; // Import js-cookie for cookie management
+// Removed js-cookie import
+// import Cookies from 'js-cookie';
 import './App.css';
-import '@fortawesome/fontawesome-free/css/all.min.css'; // Import Font Awesome for icons
-import DOMPurify from 'dompurify';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
-// Initialize Socket.io with the room from the URL path
+// Extract room name from URL
+const room = window.location.pathname.slice(1) || 'default';
+
+// Initialize Socket.io with the room
 const socket = io({
-    query: { room: window.location.pathname.slice(1) }
+    query: { room: room }
 });
 
 // Function to generate a random 64-character passphrase
@@ -24,7 +27,7 @@ const generateRandomPassphrase = () => {
     return result;
 };
 
-// Function to derive a 256-bit encryption key using PBKDF2 with the username as salt
+// Function to derive a 256-bit encryption key using PBKDF2 with the room as salt
 const deriveKey = (passphrase, salt) => {
     return CryptoJS.PBKDF2(passphrase, salt, {
         keySize: 256 / 32, // 256-bit key
@@ -34,10 +37,10 @@ const deriveKey = (passphrase, salt) => {
 
 const App = () => {
     // State variables
+    const defaultPassphrase = 'defaultpassphrase';
+    const [encryptionKey, setEncryptionKey] = useState(() => deriveKey(defaultPassphrase, room)); // Derived encryption key with default passphrase and room as salt
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
-    const [room, setRoom] = useState('');
-    const [encryptionKey, setEncryptionKey] = useState(null); // Derived encryption key
     const [keyInput, setKeyInput] = useState('');
     const [showSettings, setShowSettings] = useState(false);
     const [userId, setUserId] = useState(''); // User's unique identifier
@@ -48,11 +51,18 @@ const App = () => {
 
     // Handle incoming events and setup usernames
     useEffect(() => {
-        setRoom(window.location.pathname.slice(1)); // Set the current room based on URL path
-
         // Listen for incoming chat messages
         socket.on('chat message', (msg) => {
             try {
+                if (msg.userId === 'Server') {
+                    // Server messages are not encrypted
+                    setMessages((prevMessages) => [...prevMessages, { userId: msg.userId, message: msg.message }]);
+                    return;
+                }
+                if (msg.userId === userId || msg.userId === 'You') {
+                    // Ignore own messages
+                    return;
+                }
                 if (!encryptionKey) {
                     // Cannot decrypt without encryption key
                     setMessages((prevMessages) => [...prevMessages, { userId: msg.userId, message: '**[Encrypted Message - No Key Set]**' }]);
@@ -73,13 +83,18 @@ const App = () => {
 
         // Listen for 'user id' event from the server
         socket.on('user id', (id) => {
-            const storedUsername = Cookies.get('username');
+            const storedUsername = sessionStorage.getItem('username');
             if (!storedUsername) {
                 // If no username is stored, set the received id as username
                 setUserId(id);
-                Cookies.set('username', id, { expires: 365 }); // Store username in cookies for 1 year
+                sessionStorage.setItem('username', id); // Store username in sessionStorage
                 // Notify the server that the username has been set
                 socket.emit('set username', id);
+            } else {
+                // Use the stored username
+                setUserId(storedUsername);
+                // Notify the server of the stored username
+                socket.emit('set username', storedUsername);
             }
             setLoadingUsername(false);
         });
@@ -87,7 +102,7 @@ const App = () => {
         // Listen for 'username set' confirmation from the server
         socket.on('username set', (username) => {
             setUserId(username);
-            Cookies.set('username', username, { expires: 365 }); // Update cookie in case of conflict resolution
+            sessionStorage.setItem('username', username); // Update username in sessionStorage
             setLoadingUsername(false);
         });
 
@@ -97,7 +112,7 @@ const App = () => {
             socket.off('user id');
             socket.off('username set');
         };
-    }, [encryptionKey]);
+    }, [encryptionKey, userId]);
 
     // Scroll to the latest message when messages update
     useEffect(() => {
@@ -118,9 +133,9 @@ const App = () => {
         };
     }, []);
 
-    // On component mount, check if a username exists in cookies and set it
+    // On component mount, check if a username exists in sessionStorage and set it
     useEffect(() => {
-        const storedUsername = Cookies.get('username');
+        const storedUsername = sessionStorage.getItem('username');
         if (storedUsername) {
             setUserId(storedUsername);
             socket.emit('set username', storedUsername);
@@ -143,10 +158,10 @@ const App = () => {
 
     // Function to set a custom encryption key via passphrase
     const setCustomKey = () => {
-        if (keyInput.trim() && userId) {
+        if (keyInput.trim() && room) {
             try {
-                // Derive a 256-bit key using PBKDF2 with the username as salt
-                const derivedKey = deriveKey(keyInput.trim(), userId);
+                // Derive a 256-bit key using PBKDF2 with the room as salt
+                const derivedKey = deriveKey(keyInput.trim(), room);
                 setEncryptionKey(derivedKey);
                 setPassphraseError('');
             } catch (error) {
@@ -159,9 +174,9 @@ const App = () => {
 
     // Function to set a random encryption key (passphrase)
     const setRandomKey = () => {
-        if (userId) {
+        if (room) {
             const randomPassphrase = generateRandomPassphrase(); // 64-character random passphrase
-            const derivedKey = deriveKey(randomPassphrase, userId);
+            const derivedKey = deriveKey(randomPassphrase, room);
             setEncryptionKey(derivedKey);
             setKeyInput(randomPassphrase); // Display the passphrase to the user
             setPassphraseError('');
@@ -210,11 +225,11 @@ const App = () => {
                     <input
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        placeholder={encryptionKey ? "Type a message..." : "Set an encryption key to send messages"}
+                        placeholder="Type a message..."
                         autoComplete="off"
-                        disabled={!encryptionKey || loadingUsername}
+                        disabled={loadingUsername}
                     />
-                    <button type="submit" disabled={!encryptionKey || loadingUsername || !input.trim()}>Send</button>
+                    <button type="submit" disabled={loadingUsername || !input.trim()}>Send</button>
                 </form>
             </div>
         </div>
