@@ -230,7 +230,7 @@ const App = () => {
       <header>
         <h1>Chat Room: {DOMPurify.sanitize(room)}</h1>
         <h2>Your Username: {loadingUsername ? 'Setting up...' : userId}</h2>
-        <h5>Each URL subdirectory automatically creates a unique chat room</h5>
+        <h5 style="margin-top: 5px; margin-bottom: 5px;">Each URL subdirectory automatically creates a unique chat room</h5>
       </header>
       <div className="messages-container">
         <div className="messages">
