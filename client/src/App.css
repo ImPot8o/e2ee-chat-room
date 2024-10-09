@@ -37,6 +37,25 @@ h5{
   color: #fff;
 }
 
+footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
+  text-align: right;
+}
+
+.github-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.github-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .messages-container {
   width: 100%;
   max-width: 1200px;

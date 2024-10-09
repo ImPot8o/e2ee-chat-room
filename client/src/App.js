@@ -289,6 +289,11 @@ const App = () => {
           </button>
         </form>
       </div>
+      <footer>
+        <a href="https://github.com/ImPot8o/e2e-chat-room" class="github-link" target="_blank">
+            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="github-icon"></img>
+        </a>
+    </footer>
     </div>
   );
 };
