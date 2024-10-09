@@ -26,9 +26,14 @@ header h1 {
   font-size: 2em;
 }
 
-header h2 {
+header h2{
   margin: 5px 0 0 0;
   font-size: 1.2em;
+  color: #aaa;
+}
+
+h5{
+  margin: 5px 0 0 0;
   color: #aaa;
 }
 
