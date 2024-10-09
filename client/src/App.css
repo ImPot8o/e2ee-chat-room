@@ -1,10 +1,7 @@
-/* App.css */
-
 body {
   margin: 0;
   padding: 0;
   overflow: hidden; /* Prevent scrolling */
-  font-family: Arial, sans-serif;
 }
 
 .app {
@@ -38,7 +35,7 @@ header h2 {
 .messages-container {
   width: 100%;
   max-width: 1200px;
-  height: calc(100vh - 200px);
+  height: calc(100vh - 250px);
   overflow-y: auto;
   margin-bottom: 20px;
   border: 1px solid #444;
@@ -189,88 +186,43 @@ button:disabled {
   text-align: center;
 }
 
-/* Media Queries for responsiveness */
+/* Media Queries */
 
-@media (max-width: 768px) {
-  .app {
-    padding: 10px;
-  }
-
-  header h1 {
-    font-size: 1.5em;
-  }
-
-  header h2 {
-    font-size: 1em;
-  }
-
+@media only screen and (max-width: 768px) {
   .messages-container {
-    height: calc(100vh - 160px);
-    max-width: 100%;
+    height: calc(100vh - 300px);
   }
-
-  .input-container {
-    max-width: 100%;
-  }
-
   .settings-popup {
-    width: 100%;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .settings-popup input {
-    font-size: 12px;
-  }
-
-  .settings-popup button {
-    font-size: 12px;
+    width: 200px;
   }
 }
 
-@media (max-width: 480px) {
-  .app {
-    padding: 5px;
-  }
-
-  header h1 {
-    font-size: 1.2em;
-  }
-
-  header h2 {
-    font-size: 0.9em;
-  }
-
+@media only screen and (max-width: 600px) {
   .messages-container {
-    height: calc(100vh - 140px);
+    height: calc(100vh - 350px);
   }
-
-  .input-container {
-    flex-direction: column;
-  }
-
-  .settings-container {
-    margin-right: 0;
-    margin-bottom: 10px;
-  }
-
-  .settings-button {
-    margin-right: 0;
-    margin-bottom: 10px;
-  }
-
   .settings-popup {
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+    width: 150px;
   }
-
   .settings-popup input {
-    font-size: 10px;
+    padding: 6px;
   }
-
   .settings-popup button {
-    font-size: 10px;
+    padding: 6px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .messages-container {
+    height: calc(100vh - 400px);
+  }
+  .settings-popup {
+    width: 120px;
+  }
+  .settings-popup input {
+    padding: 4px;
+  }
+  .settings-popup button {
+    padding: 4px;
   }
 }
