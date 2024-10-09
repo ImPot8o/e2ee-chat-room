@@ -1,4 +1,4 @@
-/* App.css */
+/* Global Styles */
 
 body {
   margin: 0;
@@ -17,7 +17,6 @@ body {
   padding: 20px;
   box-sizing: border-box; /* Ensure padding doesn't overflow */
 }
-
 
 header {
   text-align: center;
@@ -187,4 +186,70 @@ button:disabled {
   font-size: 12px;
   margin-top: 5px;
   text-align: center;
+}
+
+/* Media Queries */
+
+/* Small screens (max-width: 576px) */
+@media (max-width: 576px) {
+  .app {
+    padding: 10px;
+  }
+  .messages-container {
+    max-width: 90%;
+  }
+  .input-container {
+    max-width: 90%;
+  }
+  .settings-popup {
+    width: 200px;
+  }
+}
+
+/* Medium screens (max-width: 768px) */
+@media (max-width: 768px) {
+  .app {
+    padding: 15px;
+  }
+  .messages-container {
+    max-width: 80%;
+  }
+  .input-container {
+    max-width: 80%;
+  }
+  .settings-popup {
+    width: 220px;
+  }
+}
+
+/* Large screens (max-width: 992px) */
+@media (max-width: 992px) {
+  .app {
+    padding: 20px;
+  }
+  .messages-container {
+    max-width: 70%;
+  }
+  .input-container {
+    max-width: 70%;
+  }
+  .settings-popup {
+    width: 240px;
+  }
+}
+
+/* Extra Large screens (max-width: 1200px) */
+@media (max-width: 1200px) {
+  .app {
+    padding: 25px;
+  }
+  .messages-container {
+    max-width: 60%;
+  }
+  .input-container {
+    max-width: 60%;
+  }
+  .settings-popup {
+    width: 260px;
+  }
 }
