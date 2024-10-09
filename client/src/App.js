@@ -229,8 +229,8 @@ const App = () => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       <header>
         <h1>Chat Room: {DOMPurify.sanitize(room)}</h1>
+        <h5>Each URL subdirectory (chat.pot8o.dev/subdirectory) automatically creates a unique chat room</h5>
         <h2>Your Username: {loadingUsername ? 'Setting up...' : userId}</h2>
-        <h5>Each URL subdirectory automatically creates a unique chat room</h5>
       </header>
       <div className="messages-container">
         <div className="messages">
