@@ -3,7 +3,8 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif; /* Add a default font */
+  overflow: hidden; /* Prevent scrolling */
+  font-family: Arial, sans-serif;
 }
 
 .app {
@@ -15,7 +16,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  box-sizing: border-box;
+  box-sizing: border-box; /* Ensure padding doesn't overflow */
 }
 
 header {
@@ -36,7 +37,7 @@ header h2 {
 
 .messages-container {
   width: 100%;
-  max-width: 600px; /* Limit width on larger screens */
+  max-width: 1200px;
   height: calc(100vh - 200px);
   overflow-y: auto;
   margin-bottom: 20px;
@@ -95,8 +96,7 @@ header h2 {
   padding: 10px;
   border-radius: 4px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  width: 90%; /* Make it responsive to screen width */
-  max-width: 250px; /* Limit max width */
+  width: 250px;
   z-index: 100;
 }
 
@@ -189,13 +189,88 @@ button:disabled {
   text-align: center;
 }
 
-/* Media Queries for Responsiveness */
+/* Media Queries for responsiveness */
+
 @media (max-width: 768px) {
+  .app {
+    padding: 10px;
+  }
+
+  header h1 {
+    font-size: 1.5em;
+  }
+
+  header h2 {
+    font-size: 1em;
+  }
+
   .messages-container {
-    max-width: 90%; /* Adjust width on smaller screens */
+    height: calc(100vh - 160px);
+    max-width: 100%;
+  }
+
+  .input-container {
+    max-width: 100%;
   }
 
   .settings-popup {
-    width: 95%; /* Make popup wider on smaller screens */
+    width: 100%;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .settings-popup input {
+    font-size: 12px;
+  }
+
+  .settings-popup button {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app {
+    padding: 5px;
+  }
+
+  header h1 {
+    font-size: 1.2em;
+  }
+
+  header h2 {
+    font-size: 0.9em;
+  }
+
+  .messages-container {
+    height: calc(100vh - 140px);
+  }
+
+  .input-container {
+    flex-direction: column;
+  }
+
+  .settings-container {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .settings-button {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .settings-popup {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .settings-popup input {
+    font-size: 10px;
+  }
+
+  .settings-popup button {
+    font-size: 10px;
   }
 }
