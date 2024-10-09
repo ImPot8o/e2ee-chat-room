@@ -188,39 +188,69 @@ button:disabled {
   text-align: center;
 }
 
-/* Media Queries for Responsive Adjustments */
+/* App.css */
+
+body, html {
+  height: 100%; /* Ensures that the HTML and body tag cover the entire height of the viewport */
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scrolling on the entire document */
+}
+
+.app {
+  background-color: #222;
+  color: #fff;
+  height: 100%; /* This change ensures that app does not exceed the viewport height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box; /* Ensures padding is included in the height */
+}
+
+.header, .input-container, .messages-container {
+  width: 100%; /* Ensures these elements do not exceed their container's width */
+  max-width: 600px; /* Reducing max width for better appearance on mobile */
+  box-sizing: border-box; /* Ensures padding and border are included in the width */
+}
+
+.messages-container {
+  height: 50vh; /* Adjusting height dynamically relative to the viewport */
+  overflow-y: auto; /* Allow scrolling within the messages container only if needed */
+  padding: 5px 10px; /* Adjust padding */
+}
+
+.settings-popup {
+  position: absolute;
+  bottom: 10px; /* Position it closer to the settings button */
+  left: 50%;
+  transform: translateX(-50%); /* Center align the popup */
+  width: calc(100% - 20px); /* Make the width responsive */
+  max-width: 300px; /* Maximum width */
+  z-index: 100;
+  overflow: hidden; /* Hide overflow */
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-  header h1 {
-    font-size: 1.5em; /* Smaller font size for smaller screens */
+  .app {
+    justify-content: flex-start;  /* Adjust content alignment on smaller screens */
+    padding: 10px; /* Reduce padding */
   }
 
-  header h2 {
-    font-size: 1em;
-  }
-
-  .messages-container {
-    height: calc(100vh - 150px); /* Smaller container on mobile */
-  }
-
-  .input-container, .settings-popup {
-    width: 90%; /* More width on smaller screens */
+  .input-container, .messages-container {
+    max-width: 100%; /* Allow these elements to fill the screen on smaller devices */
   }
 
   .settings-popup {
-    width: 90%; /* Adjust width for smaller devices */
-  }
-
-  form input[type="text"], form input[type="password"] {
-    font-size: 14px; /* Smaller font size for inputs */
-  }
-
-  button {
-    font-size: 14px; /* Smaller buttons on smaller devices */
+    max-width: 90%; /* Increase maximum width percentage for better fit */
   }
 }
 
 @media (max-width: 480px) {
-  .settings-button {
-    font-size: 16px; /* Smaller settings button */
+  .settings-popup {
+    padding: 5px; /* Reduce padding inside the popup for more space */
+    font-size: 14px; /* Adjust font size for better readability */
   }
 }
