@@ -11,8 +11,6 @@ in server run ```node server.js```
 
 or just run the next two commands in the root of the project
 
-
-
 ## **Run in online cloud environment**
 
 root directory: leave blank
@@ -20,3 +18,6 @@ root directory: leave blank
 Build Command: ```npm install && npm --prefix client install && npm --prefix client run build```
 
 Start Command: ```node server/server.js```
+
+## **Might add**
+- Persistent chats
