@@ -226,6 +226,7 @@ const App = () => {
 
   return (
     <div className="app">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       <header>
         <h1>Chat Room: {DOMPurify.sanitize(room)}</h1>
         <h2>Your Username: {loadingUsername ? 'Setting up...' : userId}</h2>
