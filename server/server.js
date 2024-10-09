@@ -50,7 +50,7 @@ io.on('connection', (socket) => {
     const room = socket.handshake.query.room;
     socket.join(room);
 
-    const userId = `User${Date.now()}${Math.random().toString(36).substring(7)}`;
+    const userId = `User${Date.now()}${Math.random().toString(4).substring(2)}`;
 
     socket.emit('user id', userId);
 
