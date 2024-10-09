@@ -1,4 +1,4 @@
-##About
+**Run locally**
 
 install dependencies however you do that
 
@@ -6,7 +6,7 @@ in client run ```npm run build```
 
 in server run ```node server.js```
 
-##Online cloud environment setup
+**Run in online cloud environment**
 
 root directory: leave blank
 
