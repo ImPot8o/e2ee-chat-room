@@ -7,6 +7,19 @@ const path = require('path');
 const winston = require('winston');
 const { format } = require('winston');
 const DailyRotateFile = require('winston-daily-rotate-file');
+const DOMPurify = require('dompurify')(new (require('jsdom')).JSDOM().window);
+
+// ------------------- Input Validation -------------------
+function getSanitizedUsername(rawUsername) {
+    // Define a regex pattern for allowed characters (alphanumeric, hyphens, underscores)
+    const pattern = /^[a-zA-Z0-9_-]{1,30}$/;
+    if (pattern.test(rawUsername)) {
+        // Sanitize the username using DOMPurify
+        return DOMPurify.sanitize(rawUsername);
+    } else {
+        return generateUsername(); // Fallback to a generated username if validation fails
+    }
+}
 
 const app = express();
 const server = http.createServer(app);
@@ -121,25 +134,17 @@ function generateUsername() {
     const selectedName = realNames[randomIndex];
 
     const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
+    // const year = now.getFullYear();
+    // const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
-    const timestamp = `${year}${month}${day}`;
+    const hour = String(now.getHours()).padStart(2, '0');
+    const minute = String(now.getMinutes()).padStart(2, '0');
+    const timestamp = `${day}${hour}${minute}`;
     return `${selectedName}-${timestamp}`;
 }
 
 // ------------------- Active Usernames Tracking -------------------
 const activeUsernames = new Map(); // Maps username to number of active connections
-
-// ------------------- Input Validation -------------------
-function getSanitizedRoomName(rawRoom) {
-    const pattern = /^[a-zA-Z0-9_-]{1,30}$/;
-    if (pattern.test(rawRoom)) {
-        return rawRoom;
-    } else {
-        return 'default';
-    }
-}
 
 // ------------------- Rate Limiting Setup -------------------
 const MESSAGE_RATE_LIMIT = 10; // Max messages allowed
@@ -148,13 +153,14 @@ const MESSAGE_RATE_DURATION = 10 * 1000; // Duration in milliseconds (10 seconds
 // ------------------- Socket.io Connection Handling -------------------
 io.on('connection', (socket) => {
     const rawRoom = socket.handshake.query.room || 'default';
-    const room = getSanitizedRoomName(rawRoom);
+    const room = getSanitizedUsername(rawRoom);
     socket.join(room);
 
     // Assign and emit a generated username to the client
     const generatedUsername = generateUsername();
-    socket.username = generatedUsername;
-    socket.emit('user id', generatedUsername);
+    const sanitizedUsername = getSanitizedUsername(generatedUsername);
+    socket.username = sanitizedUsername;
+    socket.emit('user id', sanitizedUsername);
 
     // Notify others in the room
     socket.to(room).emit('chat message', {
@@ -167,22 +173,23 @@ io.on('connection', (socket) => {
 
     // Handle 'set username' event from the client
     socket.on('set username', (desiredUsername) => {
-        if (!desiredUsername || typeof desiredUsername !== 'string') {
-            // Invalid username, assign a new one
-            const newUsername = generateUsername();
-            socket.username = newUsername;
-            if (activeUsernames.has(newUsername)) {
+        const sanitizedUsername = getSanitizedUsername(desiredUsername);
+
+        // Prevent reserved usernames
+        if (sanitizedUsername.toLowerCase() === 'server') {
+            socket.username = generateUsername();
+            if (activeUsernames.has(socket.username)) {
                 activeUsernames.set(
-                    newUsername,
-                    activeUsernames.get(newUsername) + 1
+                    socket.username,
+                    activeUsernames.get(socket.username) + 1
                 );
             } else {
-                activeUsernames.set(newUsername, 1);
+                activeUsernames.set(socket.username, 1);
             }
-            socket.emit('username set', newUsername);
+            socket.emit('username set', socket.username);
 
             if (enableLogging) {
-                consoleLogger.info(`${newUsername} connected to room ${room}`);
+                consoleLogger.info(`${socket.username} connected to room ${room}`);
             }
 
             // Notify others in the room
@@ -193,54 +200,28 @@ io.on('connection', (socket) => {
             return;
         }
 
-        // Prevent reserved usernames
-        if (desiredUsername.toLowerCase() === 'server') {
-            const newUsername = generateUsername();
-            socket.username = newUsername;
-            if (activeUsernames.has(newUsername)) {
-                activeUsernames.set(
-                    newUsername,
-                    activeUsernames.get(newUsername) + 1
-                );
-            } else {
-                activeUsernames.set(newUsername, 1);
-            }
-            socket.emit('username set', newUsername);
-
-            if (enableLogging) {
-                consoleLogger.info(`${newUsername} connected to room ${room}`);
-            }
-
-            // Notify others in the room
-            socket.to(room).emit('chat message', {
-                userId: 'Server',
-                message: `${newUsername} has joined the chat.`,
-            });
-            return;
-        }
-
-        // Assign desired username
-        socket.username = desiredUsername;
-        if (activeUsernames.has(desiredUsername)) {
+        // Assign the sanitized username
+        socket.username = sanitizedUsername;
+        if (activeUsernames.has(sanitizedUsername)) {
             activeUsernames.set(
-                desiredUsername,
-                activeUsernames.get(desiredUsername) + 1
+                sanitizedUsername,
+                activeUsernames.get(sanitizedUsername) + 1
             );
         } else {
-            activeUsernames.set(desiredUsername, 1);
+            activeUsernames.set(sanitizedUsername, 1);
         }
-        socket.emit('username set', desiredUsername);
+        socket.emit('username set', sanitizedUsername);
 
         if (enableLogging) {
             consoleLogger.info(
-                `${desiredUsername} connected to room ${room}`
+                `${sanitizedUsername} connected to room ${room}`
             );
         }
 
         // Notify others in the room
         socket.to(room).emit('chat message', {
             userId: 'Server',
-            message: `${desiredUsername} has joined the chat.`,
+            message: `${sanitizedUsername} has joined the chat.`,
         });
     });
 
@@ -270,7 +251,7 @@ io.on('connection', (socket) => {
             messageLogger.info(`${room} - ${socket.username}: ${msg}`);
         }
 
-        // Broadcast the encrypted message to the room
+        // Broadcast the message to the room
         io.to(room).emit('chat message', {
             userId: socket.username,
             message: msg,
