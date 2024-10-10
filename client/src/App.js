@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import CryptoJS from 'crypto-js';
-import DOMPurify from 'dompurify'; // Import DOMPurify for sanitizing messages
+import DOMPurify from 'dompurify';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -171,6 +171,25 @@ const App = () => {
     };
   }, []);
 
+  // Listen for changes in localStorage to synchronize username across tabs
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === 'username') {
+        const newUsername = event.newValue;
+        if (newUsername) {
+          setUserId(newUsername);
+          socket.emit('set username', newUsername);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
   // On component mount, check if a username exists in localStorage and set it
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
@@ -290,10 +309,10 @@ const App = () => {
         </form>
       </div>
       <footer>
-        <a href="https://github.com/ImPot8o/e2e-chat-room" class="github-link" target="_blank">
+        <a href="https://github.com/ImPot8o/e2e-chat-room" class="github-link" target="_blank" rel="noopener noreferrer">
             <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="github-icon"></img>
         </a>
-    </footer>
+      </footer>
     </div>
   );
 };
