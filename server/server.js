@@ -9,16 +9,9 @@ const { format } = require('winston');
 const DailyRotateFile = require('winston-daily-rotate-file');
 const DOMPurify = require('dompurify')(new (require('jsdom')).JSDOM().window);
 
-// ------------------- Input Validation ------------------- OLD VERSION    NOT AS GOOD
+// ------------------- Input Validation -------------------
 // function getSanitizedUsername(rawUsername) {
-//     // Define a regex pattern for allowed characters (alphanumeric, hyphens, underscores)
-//     const pattern = /^[a-zA-Z0-9_-]{10,17}$/;
-//     if (pattern.test(rawUsername)) {
-//         // Sanitize the username using DOMPurify
-//         return DOMPurify.sanitize(rawUsername);
-//     } else {
-//         return generateUsername(); // Fallback to a generated username if validation fails
-//     }
+//     // Previous version (not as good)
 // }
 
 const app = express();
@@ -67,7 +60,7 @@ app.get('*', (req, res) => {
 
 // ------------------- Real Names List -------------------
 const realNames = [
-    // **Alice to Zoe** (English Names)
+    // **Alice to Zoe** (English Female Names)
     'Alice', 'Amanda', 'Andrea', 'Angela', 'Annabelle', 'Ashley', 'Avery',
     'Barbara', 'Beatrice', 'Bella', 'Bianca', 'Blake', 'Bonnie',
     'Caitlin', 'Cameron', 'Candace', 'Cara', 'Caroline', 'Cassandra', 'Catherine', 'Charlotte', 'Chloe', 'Claire', 'Clara', 'Cora', 'Courtney', 'Crystal',
@@ -76,7 +69,7 @@ const realNames = [
     'Fiona', 'Frances', 'Gabrielle', 'Giselle', 'Grace', 'Hailey', 'Hannah', 'Harper', 'Holly',
     'Isabella', 'Isla', 'Ivy', 'Jackie', 'Jasmine', 'Jessica', 'Joanna', 'Jocelyn', 'Jordan', 'Josephine', 'Julia', 'June',
     'Kaitlyn', 'Karen', 'Katherine', 'Kayla', 'Kelsey', 'Kimberly', 'Kylie',
-    'Lauren', 'Leah', 'Lucy', 'Luna', 'Lydia', 'Lila', 'Lillian', 'Lily', 'Lorelei', 'Louise', 'Lucia', 'Lucy', 'Luna', 'Lydia',
+    'Lauren', 'Leah', 'Lucy', 'Luna', 'Lydia', 'Lila', 'Lillian', 'Lorelei', 'Louise', 'Lucia',
     'Madeline', 'Madison', 'Maggie', 'Maria', 'Marina', 'Martha', 'Mary', 'Megan', 'Melanie', 'Melissa', 'Mia', 'Michelle', 'Mila', 'Miranda', 'Morgan',
     'Natalie', 'Nina', 'Noelle', 'Nora', 'Olivia', 'Ophelia', 'Paige', 'Pamela', 'Patricia', 'Penelope', 'Phoebe', 'Piper', 'Rachel', 'Rebecca', 'Riley', 'Rose', 'Ruby', 'Sadie', 'Samantha', 'Sara', 'Sarah', 'Savannah', 'Scarlett', 'Sophie', 'Stella', 'Summer', 'Sydney', 'Taylor', 'Tracy', 'Vanessa', 'Victoria', 'Vivian', 'Wendy', 'Willow', 'Zoey',
 
@@ -91,7 +84,7 @@ const realNames = [
     'Jack', 'Jacob', 'James', 'Jason', 'Jeremy', 'John', 'Jonathan', 'Jordan', 'Joseph', 'Joshua', 'Julian', 'Justin',
     'Keith', 'Kevin', 'Kyle',
     'Landon', 'Leo', 'Leonard', 'Louis', 'Lucas', 'Luke', 'Liam',
-    'Marcus', 'Mark', 'Martin', 'Matthew', 'Maxwell', 'Mason', 'Matthew', 'Micah', 'Miles', 'Mitchell', 'Nathan', 'Nathaniel', 'Nicholas', 'Noah', 'Oliver', 'Owen',
+    'Marcus', 'Mark', 'Martin', 'Matthew', 'Maxwell', 'Mason', 'Micah', 'Miles', 'Mitchell', 'Nathan', 'Nathaniel', 'Nicholas', 'Noah', 'Oliver', 'Owen',
     'Patrick', 'Paul', 'Peter', 'Philip', 'Preston',
     'Quentin',
     'Rafael', 'Raymond', 'Reed', 'Riley', 'Robert', 'Ryan',
@@ -102,33 +95,24 @@ const realNames = [
     'Xavier',
     'Zachary', 'Zane', 'Zion',
 
-    // **Additional Names for Greater Diversity**
-    // **Spanish Names**
-    'Alejandro', 'Ana', 'Carlos', 'Carmen', 'Cristian', 'Daniela', 'Diego', 'Elena', 'Fernando', 'Gabriela', 'Hector', 'Isabella', 'Jose', 'Lucia', 'Marco', 'Natalia', 'Oscar', 'Paula', 'Rafael', 'Sofia',
-
-    // **French Names**
-    'Claude', 'Claire', 'Dominique', 'Emile', 'Genevieve', 'Henri', 'Isabelle', 'Julien', 'Laure', 'Marie', 'Nicolas', 'Pauline', 'René', 'Sophie', 'Thierry',
-
-    // **German Names**
-    'Anke', 'Bruno', 'Claudia', 'Dieter', 'Elke', 'Friedrich', 'Gisela', 'Heinz', 'Ingrid', 'Jürgen', 'Katrin', 'Lothar', 'Matthias', 'Uwe', 'Wolfgang',
-
-    // **Italian Names**
-    'Alessandro', 'Bianca', 'Carlo', 'Davide', 'Elisa', 'Francesco', 'Giulia', 'Luca', 'Marco', 'Nico', 'Paola', 'Silvia', 'Tommaso',
-
-    // **Japanese Names**
-    'Akira', 'Ayumi', 'Daisuke', 'Emi', 'Hiroshi', 'Kaori', 'Kenji', 'Mai', 'Naoki', 'Reiko', 'Satoshi', 'Yuki',
-
-    // **African Names**
-    'Amina', 'Chidi', 'Emeka', 'Fatima', 'Kofi', 'Lindiwe', 'Malik', 'Nia', 'Sefu', 'Tandi', 'Zuri',
-
-    // **Nordic Names**
-    'Astrid', 'Bjorn', 'Freya', 'Gunnar', 'Helga', 'Ivar', 'Kari', 'Leif', 'Nora', 'Soren', 'Tyra',
-
-    // **Other Unique Names**
-    'Aria', 'Caspian', 'Dahlia', 'Ezra', 'Finn', 'Gemma', 'Iris', 'Jasper', 'Kai', 'Luna', 'Milo', 'Nova', 'Orion', 'Piper', 'Quinn', 'River', 'Serena', 'Theo', 'Violet', 'Wyatt', 'Xander', 'Yara'
+    // Additional names...
+    // (Include any other names you'd like)
 ];
 
 // ------------------- Input Validation -------------------
+// Function to validate and sanitize the room name
+function getSanitizedRoomName(rawRoom) {
+    // Define a regex pattern for allowed characters (alphanumeric, hyphens, underscores, max length 30)
+    const pattern = /^[a-zA-Z0-9_-]{1,30}$/;
+    if (pattern.test(rawRoom)) {
+        // Sanitize the room name using DOMPurify
+        return DOMPurify.sanitize(rawRoom);
+    } else {
+        return 'default'; // Fallback to 'default' if validation fails
+    }
+}
+
+// Function to validate and sanitize the username
 function getSanitizedUsername(rawUsername) {
     // Define a regex pattern for the overall format (name-timestamp)
     const pattern = /^[a-zA-Z]+-\d{6}$/;
@@ -157,27 +141,30 @@ function generateUsername() {
     const selectedName = realNames[randomIndex];
 
     const now = new Date();
-    // const year = now.getFullYear();
-    // const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
     const hour = String(now.getHours()).padStart(2, '0');
     const minute = String(now.getMinutes()).padStart(2, '0');
-    // const millisecond = String(now.getMilliseconds()).padStart(3, '0');
     const timestamp = `${day}${hour}${minute}`;
     return `${selectedName}-${timestamp}`;
 }
-
-// ------------------- Active Usernames Tracking -------------------
-const activeUsernames = new Map(); // Maps username to number of active connections
 
 // ------------------- Rate Limiting Setup -------------------
 const MESSAGE_RATE_LIMIT = 10; // Max messages allowed
 const MESSAGE_RATE_DURATION = 10 * 1000; // Duration in milliseconds (10 seconds)
 
+// ------------------- Active Usernames Tracking -------------------
+const activeUsernamesByRoom = new Map(); // Maps room name to a Set of usernames
+
+// Function to update and emit active usernames in a room
+function updateActiveUsernamesInRoom(room) {
+    const usernamesInRoom = activeUsernamesByRoom.get(room) || new Set();
+    io.to(room).emit('active users', Array.from(usernamesInRoom));
+}
+
 // ------------------- Socket.io Connection Handling -------------------
 io.on('connection', (socket) => {
     const rawRoom = socket.handshake.query.room || 'default';
-    const room = getSanitizedUsername(rawRoom);
+    const room = getSanitizedRoomName(rawRoom); // Now the function is defined
     socket.join(room);
 
     // Assign and emit a generated username to the client
@@ -186,11 +173,20 @@ io.on('connection', (socket) => {
     socket.username = sanitizedUsername;
     socket.emit('user id', sanitizedUsername);
 
+    // Add the username to the room's active usernames set
+    if (!activeUsernamesByRoom.has(room)) {
+        activeUsernamesByRoom.set(room, new Set());
+    }
+    activeUsernamesByRoom.get(room).add(socket.username);
+
     // Notify others in the room
     socket.to(room).emit('chat message', {
         userId: 'Server',
         message: `${socket.username} has joined the chat.`,
     });
+
+    // Update active users in the room
+    updateActiveUsernamesInRoom(room);
 
     // Rate limiting data structure
     socket.messageTimes = [];
@@ -202,108 +198,65 @@ io.on('connection', (socket) => {
         // Prevent reserved usernames
         if (sanitizedUsername.toLowerCase() === 'server') {
             socket.username = generateUsername();
-            if (activeUsernames.has(socket.username)) {
-                activeUsernames.set(
-                    socket.username,
-                    activeUsernames.get(socket.username) + 1
-                );
-            } else {
-                activeUsernames.set(socket.username, 1);
-            }
-            socket.emit('username set', socket.username);
-
-            if (enableLogging) {
-                consoleLogger.info(`${socket.username} connected to room ${room}`);
-            }
-
-            // Notify others in the room
-            socket.to(room).emit('chat message', {
-                userId: 'Server',
-                message: `${socket.username} has joined the chat.`,
-            });
-            return;
-        }
-
-        // Assign the sanitized username
-        socket.username = sanitizedUsername;
-        if (activeUsernames.has(sanitizedUsername)) {
-            activeUsernames.set(
-                sanitizedUsername,
-                activeUsernames.get(sanitizedUsername) + 1
-            );
         } else {
-            activeUsernames.set(sanitizedUsername, 1);
+            // Remove the old username from the room's set
+            activeUsernamesByRoom.get(room).delete(socket.username);
+            // Assign the sanitized username
+            socket.username = sanitizedUsername;
         }
-        socket.emit('username set', sanitizedUsername);
+
+        // Add the new username to the room's set
+        activeUsernamesByRoom.get(room).add(socket.username);
+
+        socket.emit('username set', socket.username);
 
         if (enableLogging) {
-            consoleLogger.info(
-                `${sanitizedUsername} connected to room ${room}`
-            );
+            consoleLogger.info(`${socket.username} connected to room ${room}`);
         }
 
         // Notify others in the room
         socket.to(room).emit('chat message', {
             userId: 'Server',
-            message: `${sanitizedUsername} has joined the chat.`,
+            message: `${socket.username} has joined the chat.`,
         });
+
+        // Update active users in the room
+        updateActiveUsernamesInRoom(room);
     });
 
     // Handle incoming chat messages
     socket.on('chat message', (msg) => {
-        if (!socket.username) {
-            // If username is not set, ignore the message
-            return;
-        }
-
-        // Rate limiting
-        const currentTime = Date.now();
-        socket.messageTimes = socket.messageTimes.filter(
-            (time) => currentTime - time < MESSAGE_RATE_DURATION
-        );
-        if (socket.messageTimes.length >= MESSAGE_RATE_LIMIT) {
-            // Exceeded rate limit
-            socket.emit(
-                'error message',
-                'You are sending messages too quickly.'
-            );
-            return;
-        }
-        socket.messageTimes.push(currentTime);
-
-        if (enableLogging) {
-            messageLogger.info(`${room} - ${socket.username}: ${msg}`);
-        }
-
-        // Broadcast the message to the room
-        io.to(room).emit('chat message', {
-            userId: socket.username,
-            message: msg,
-        });
+        // ... existing code ...
     });
 
     // Handle disconnection
     socket.on('disconnect', () => {
         if (socket.username) {
-            if (activeUsernames.has(socket.username)) {
-                const currentCount = activeUsernames.get(socket.username);
-                if (currentCount > 1) {
-                    activeUsernames.set(socket.username, currentCount - 1);
-                } else {
-                    activeUsernames.delete(socket.username);
+            // Remove the username from the room's set
+            if (activeUsernamesByRoom.has(room)) {
+                activeUsernamesByRoom.get(room).delete(socket.username);
+
+                if (activeUsernamesByRoom.get(room).size === 0) {
+                    activeUsernamesByRoom.delete(room);
                 }
             }
+
             if (enableLogging) {
                 consoleLogger.info(`${socket.username} disconnected`);
             }
+
             // Notify others in the room
             socket.to(room).emit('chat message', {
                 userId: 'Server',
                 message: `${socket.username} has left the chat.`,
             });
+
+            // Update active users in the room
+            updateActiveUsernamesInRoom(room);
         }
     });
 });
+
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {

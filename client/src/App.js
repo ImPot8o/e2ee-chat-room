@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import CryptoJS from 'crypto-js';
 import DOMPurify from 'dompurify';
+import Cookies from 'js-cookie'; // Import js-cookie
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -59,6 +60,9 @@ const App = () => {
   const [passphraseError, setPassphraseError] = useState(''); // Error message for passphrase
   const messagesEndRef = useRef(null);
   const settingsRef = useRef(null);
+  const [activeUsers, setActiveUsers] = useState([]);
+  const [showActiveUsers, setShowActiveUsers] = useState(false);
+  const activeUsersRef = useRef(null);
 
   useEffect(() => {
     // Listen for incoming chat messages
@@ -145,11 +149,19 @@ const App = () => {
       setLoadingUsername(false);
     });
 
+    // Listen for 'active users' event from the server
+    socket.on('active users', (usernames) => {
+      setActiveUsers(usernames);
+      // Store the list in cookies under the same name to override per room
+      Cookies.set('activeUsers', JSON.stringify(usernames), { expires: 1 });
+    });
+
     // Cleanup event listeners on component unmount
     return () => {
       socket.off('chat message');
       socket.off('user id');
       socket.off('username set');
+      socket.off('active users');
     };
   }, [encryptionKey, userId]);
 
@@ -157,11 +169,26 @@ const App = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Handle clicks outside the settings popup to close it
+  // Handle clicks outside the settings and active users popups
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (settingsRef.current && !settingsRef.current.contains(event.target)) {
+      if (
+        settingsRef.current &&
+        !settingsRef.current.contains(event.target) &&
+        event.target.className !== 'settings-button' &&
+        event.target.className !== 'fas fa-cog'
+      ) {
         setShowSettings(false);
+      }
+
+      if (
+        activeUsersRef.current &&
+        !activeUsersRef.current.contains(event.target) &&
+        event.target.className !== 'active-users-button' &&
+        event.target.className !== 'fas fa-users' &&
+        event.target.className !== 'active-users-button-footer'
+      ) {
+        setShowActiveUsers(false);
       }
     };
 
@@ -189,6 +216,14 @@ const App = () => {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
+
+  // Retrieve active users from cookies on component mount
+  useEffect(() => {
+    const storedActiveUsers = Cookies.get('activeUsers');
+    if (storedActiveUsers) {
+      setActiveUsers(JSON.parse(storedActiveUsers));
+    }
+  }, [room]); // Update when the room changes
 
   // On component mount, check if a username exists in localStorage and set it
   useEffect(() => {
@@ -248,7 +283,9 @@ const App = () => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       <header>
         <h1>Chat Room: {DOMPurify.sanitize(room)}</h1>
-        <h5>Each URL subdirectory (chat.pot8o.dev/subdirectory) automatically creates a unique chat room</h5>
+        <h5>
+          Each URL subdirectory (chat.pot8o.dev/subdirectory) automatically creates a unique chat room
+        </h5>
         <h2>Your Username: {loadingUsername ? 'Setting up...' : userId}</h2>
       </header>
       <div className="messages-container">
@@ -292,6 +329,26 @@ const App = () => {
             )}
           </div>
         )}
+        {!loadingUsername && (
+          <div className="active-users-container" ref={activeUsersRef}>
+            {/* <button
+              className="active-users-button"
+              onClick={() => setShowActiveUsers(!showActiveUsers)}
+            >
+              <i className="fas fa-users"></i>
+            </button> */}
+            {showActiveUsers && (
+              <div className="active-users-popup">
+                <h3>Active Users in Room</h3>
+                <ul>
+                  {activeUsers.map((username, index) => (
+                    <li key={index}>{DOMPurify.sanitize(username)}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
         <form onSubmit={sendMessage}>
           <input
             value={input}
@@ -300,18 +357,31 @@ const App = () => {
             autoComplete="off"
             disabled={loadingUsername}
           />
-          <button
-            type="submit"
-            disabled={loadingUsername || !input.trim()}
-          >
+          <button type="submit" disabled={loadingUsername || !input.trim()}>
             Send
           </button>
         </form>
       </div>
       <footer>
-        <a href="https://github.com/ImPot8o/e2e-chat-room" class="github-link" target="_blank" rel="noopener noreferrer">
-            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="github-icon"></img>
+        <a
+          href="https://github.com/ImPot8o/e2e-chat-room"
+          className="github-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+            alt="GitHub"
+            className="github-icon"
+          ></img>
         </a>
+        {/* Add the Active Users button to the footer */}
+        <button
+          className="active-users-button-footer"
+          onClick={() => setShowActiveUsers(!showActiveUsers)}
+        >
+          <i className="fas fa-users"></i>
+        </button>
       </footer>
     </div>
   );

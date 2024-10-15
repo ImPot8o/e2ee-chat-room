@@ -46,6 +46,70 @@ footer {
   text-align: right;
 }
 
+/* Active Users Button in Footer */
+.active-users-button-footer {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.active-users-button-footer:hover {
+  color: #ccc;
+}
+
+/* Active Users Popup */
+.active-users-popup {
+  position: fixed;
+  bottom: 60px; /* Adjust based on your footer height */
+  right: 20px; /* Adjust based on desired position */
+  background-color: #333;
+  border: 1px solid #444;
+  padding: 15px;
+  z-index: 1000;
+  width: 250px;
+  max-height: 300px;
+  overflow-y: auto;
+  border-radius: 4px;
+}
+
+.active-users-popup h3 {
+  margin-top: 0;
+  color: #fff;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.active-users-popup ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.active-users-popup li {
+  padding: 5px 0;
+  border-bottom: 1px solid #555;
+  color: #fff;
+}
+
+/* Adjust the footer to position elements */
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+footer .github-link {
+  margin-left: 10px;
+}
+
+footer .active-users-button-footer {
+  margin-right: 10px;
+}
+
+
+
 .github-icon {
   width: 24px;
   height: 24px;
