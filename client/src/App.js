@@ -2,9 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
-import CryptoJS from 'crypto-js';
 import DOMPurify from 'dompurify';
-import Cookies from 'js-cookie'; // Import js-cookie
+import Cookies from 'js-cookie';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -30,7 +29,7 @@ const socket = io({
 
 const generateRandomPassphrase = () => {
   const characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:",.<>?/~`';
   const length = 64;
   let result = '';
   for (let i = 0; i < length; i++) {
@@ -39,18 +38,88 @@ const generateRandomPassphrase = () => {
   return result;
 };
 
-const deriveKey = (passphrase, salt) => {
-  return CryptoJS.PBKDF2(passphrase, salt, {
-    keySize: 256 / 32, // 256-bit key
-    iterations: 1000,
-  }).toString();
-};
+// Derive an AES-GCM key using PBKDF2 with increased iterations
+async function deriveKey(passphrase, salt) {
+  const encoder = new TextEncoder();
+  const passphraseKey = await window.crypto.subtle.importKey(
+    'raw',
+    encoder.encode(passphrase),
+    { name: 'PBKDF2' },
+    false,
+    ['deriveKey']
+  );
+
+  return window.crypto.subtle.deriveKey(
+    {
+      name: 'PBKDF2',
+      salt: encoder.encode(salt),
+      iterations: 600000, // Increased iteration count
+      hash: 'SHA-256',
+    },
+    passphraseKey,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    ['encrypt', 'decrypt']
+  );
+}
+
+// Encrypt a message using AES-GCM
+async function encryptMessage(message, key) {
+  const iv = window.crypto.getRandomValues(new Uint8Array(12)); // 96-bit nonce for GCM
+  const encoder = new TextEncoder();
+  const data = encoder.encode(message);
+
+  const cipherBuffer = await window.crypto.subtle.encrypt(
+    {
+      name: 'AES-GCM',
+      iv: iv,
+    },
+    key,
+    data
+  );
+
+  // Combine IV and ciphertext
+  const combined = new Uint8Array(iv.length + cipherBuffer.byteLength);
+  combined.set(iv);
+  combined.set(new Uint8Array(cipherBuffer), iv.length);
+
+  // Encode as Base64 for transmission
+  return btoa(String.fromCharCode(...combined));
+}
+
+// Decrypt a message using AES-GCM
+async function decryptMessage(encryptedMessage, key) {
+  try {
+    // Decode Base64
+    const combined = Uint8Array.from(
+      atob(encryptedMessage),
+      (c) => c.charCodeAt(0)
+    );
+
+    // Extract IV and ciphertext
+    const iv = combined.slice(0, 12); // First 12 bytes for IV
+    const ciphertext = combined.slice(12);
+
+    const decryptedBuffer = await window.crypto.subtle.decrypt(
+      {
+        name: 'AES-GCM',
+        iv: iv,
+      },
+      key,
+      ciphertext
+    );
+
+    const decoder = new TextDecoder();
+    return decoder.decode(decryptedBuffer);
+  } catch (error) {
+    console.error('Decryption error:', error);
+    return null;
+  }
+}
 
 const App = () => {
   const defaultPassphrase = 'defaultpassphrase';
-  const [encryptionKey, setEncryptionKey] = useState(() =>
-    deriveKey(defaultPassphrase, room)
-  ); // Derive key using room as salt
+  const [encryptionKey, setEncryptionKey] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [keyInput, setKeyInput] = useState('');
@@ -64,9 +133,18 @@ const App = () => {
   const [showActiveUsers, setShowActiveUsers] = useState(false);
   const activeUsersRef = useRef(null);
 
+  // Derive the default encryption key on component mount
+  useEffect(() => {
+    const deriveDefaultKey = async () => {
+      const key = await deriveKey(defaultPassphrase, room);
+      setEncryptionKey(key);
+    };
+    deriveDefaultKey();
+  }, []);
+
   useEffect(() => {
     // Listen for incoming chat messages
-    socket.on('chat message', (msg) => {
+    socket.on('chat message', async (msg) => {
       try {
         if (msg.userId === 'Server') {
           // Server messages are not encrypted
@@ -92,11 +170,7 @@ const App = () => {
           return;
         }
         // Decrypt the received message using the encryption key
-        const decryptedBytes = CryptoJS.AES.decrypt(
-          msg.message,
-          encryptionKey
-        );
-        const decryptedMsg = decryptedBytes.toString(CryptoJS.enc.Utf8);
+        const decryptedMsg = await decryptMessage(msg.message, encryptionKey);
         if (decryptedMsg) {
           // Sanitize the decrypted message
           const sanitizedMessage = DOMPurify.sanitize(decryptedMsg);
@@ -109,7 +183,7 @@ const App = () => {
             ...prevMessages,
             {
               userId: msg.userId,
-              message: '**[Encrypted Message - Incorrect Key]**',
+              message: '**[Encrypted Message - Decryption Failed]**',
             },
           ]);
         }
@@ -236,27 +310,32 @@ const App = () => {
   }, []);
 
   // Function to send a message
-  const sendMessage = (e) => {
+  const sendMessage = async (e) => {
     e.preventDefault();
     if (input.trim() && encryptionKey) {
-      // Encrypt the message before sending using derived key
-      const encryptedMsg = CryptoJS.AES.encrypt(input, encryptionKey).toString();
-      socket.emit('chat message', encryptedMsg);
-      // Append the sent message to the local message list
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { userId: 'You', message: DOMPurify.sanitize(input) },
-      ]);
-      setInput('');
+      try {
+        // Encrypt the message before sending using derived key
+        const encryptedMsg = await encryptMessage(input, encryptionKey);
+        socket.emit('chat message', encryptedMsg);
+        // Append the sent message to the local message list
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { userId: 'You', message: DOMPurify.sanitize(input) },
+        ]);
+        setInput('');
+      } catch (error) {
+        console.error('Encryption error:', error);
+        // Handle encryption error
+      }
     }
   };
 
   // Function to set a custom encryption key via passphrase
-  const setCustomKey = () => {
+  const setCustomKey = async () => {
     if (keyInput.trim() && room) {
       try {
         // Derive a 256-bit key using PBKDF2 with the room as salt
-        const derivedKey = deriveKey(keyInput.trim(), room);
+        const derivedKey = await deriveKey(keyInput.trim(), room);
         setEncryptionKey(derivedKey);
         setPassphraseError('');
       } catch (error) {
@@ -268,10 +347,10 @@ const App = () => {
   };
 
   // Function to set a random encryption key (passphrase)
-  const setRandomKey = () => {
+  const setRandomKey = async () => {
     if (room) {
       const randomPassphrase = generateRandomPassphrase(); // 64-character random passphrase
-      const derivedKey = deriveKey(randomPassphrase, room);
+      const derivedKey = await deriveKey(randomPassphrase, room);
       setEncryptionKey(derivedKey);
       setKeyInput(randomPassphrase); // Display the passphrase to the user
       setPassphraseError('');
@@ -284,7 +363,8 @@ const App = () => {
       <header>
         <h1>Chat Room: {DOMPurify.sanitize(room)}</h1>
         <h5>
-          Each URL subdirectory (chat.pot8o.dev/subdirectory) automatically creates a unique chat room
+          Each URL subdirectory (chat.pot8o.dev/subdirectory) automatically creates a
+          unique chat room
         </h5>
         <h2>Your Username: {loadingUsername ? 'Setting up...' : userId}</h2>
       </header>

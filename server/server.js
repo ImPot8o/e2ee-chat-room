@@ -164,7 +164,7 @@ function updateActiveUsernamesInRoom(room) {
 // ------------------- Socket.io Connection Handling -------------------
 io.on('connection', (socket) => {
     const rawRoom = socket.handshake.query.room || 'default';
-    const room = getSanitizedRoomName(rawRoom); // Now the function is defined
+    const room = getSanitizedRoomName(rawRoom);
     socket.join(room);
 
     // Assign and emit a generated username to the client
@@ -226,7 +226,35 @@ io.on('connection', (socket) => {
 
     // Handle incoming chat messages
     socket.on('chat message', (msg) => {
-        // ... existing code ...
+        if (!socket.username) {
+            // If username is not set, ignore the message
+            return;
+        }
+
+        // Rate limiting
+        const currentTime = Date.now();
+        socket.messageTimes = socket.messageTimes.filter(
+            (time) => currentTime - time < MESSAGE_RATE_DURATION
+        );
+        if (socket.messageTimes.length >= MESSAGE_RATE_LIMIT) {
+            // Exceeded rate limit
+            socket.emit(
+                'error message',
+                'You are sending messages too quickly.'
+            );
+            return;
+        }
+        socket.messageTimes.push(currentTime);
+
+        if (enableLogging) {
+            messageLogger.info(`${room} - ${socket.username}: ${msg}`);
+        }
+
+        // Broadcast the message to the room
+        io.to(room).emit('chat message', {
+            userId: socket.username,
+            message: msg,
+        });
     });
 
     // Handle disconnection
@@ -256,7 +284,6 @@ io.on('connection', (socket) => {
         }
     });
 });
-
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
