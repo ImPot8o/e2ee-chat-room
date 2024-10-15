@@ -9,17 +9,17 @@ const { format } = require('winston');
 const DailyRotateFile = require('winston-daily-rotate-file');
 const DOMPurify = require('dompurify')(new (require('jsdom')).JSDOM().window);
 
-// ------------------- Input Validation -------------------
-function getSanitizedUsername(rawUsername) {
-    // Define a regex pattern for allowed characters (alphanumeric, hyphens, underscores)
-    const pattern = /^[a-zA-Z0-9_-]{1,30}$/;
-    if (pattern.test(rawUsername)) {
-        // Sanitize the username using DOMPurify
-        return DOMPurify.sanitize(rawUsername);
-    } else {
-        return generateUsername(); // Fallback to a generated username if validation fails
-    }
-}
+// ------------------- Input Validation ------------------- OLD VERSION    NOT AS GOOD
+// function getSanitizedUsername(rawUsername) {
+//     // Define a regex pattern for allowed characters (alphanumeric, hyphens, underscores)
+//     const pattern = /^[a-zA-Z0-9_-]{10,17}$/;
+//     if (pattern.test(rawUsername)) {
+//         // Sanitize the username using DOMPurify
+//         return DOMPurify.sanitize(rawUsername);
+//     } else {
+//         return generateUsername(); // Fallback to a generated username if validation fails
+//     }
+// }
 
 const app = express();
 const server = http.createServer(app);
@@ -125,8 +125,31 @@ const realNames = [
     'Astrid', 'Bjorn', 'Freya', 'Gunnar', 'Helga', 'Ivar', 'Kari', 'Leif', 'Nora', 'Soren', 'Tyra',
 
     // **Other Unique Names**
-    'Aria', 'Caspian', 'Dahlia', 'Ezra', 'Finn', 'Gemma', 'Iris', 'Jasper', 'Kai', 'Luna', 'Milo', 'Nova', 'Orion', 'Piper', 'Quinn', 'River', 'Serena', 'Theo', 'Violet', 'Wyatt', 'Xander', 'Yara', 'Zane'
+    'Aria', 'Caspian', 'Dahlia', 'Ezra', 'Finn', 'Gemma', 'Iris', 'Jasper', 'Kai', 'Luna', 'Milo', 'Nova', 'Orion', 'Piper', 'Quinn', 'River', 'Serena', 'Theo', 'Violet', 'Wyatt', 'Xander', 'Yara'
 ];
+
+// ------------------- Input Validation -------------------
+function getSanitizedUsername(rawUsername) {
+    // Define a regex pattern for the overall format (name-timestamp)
+    const pattern = /^[a-zA-Z]+-\d{6}$/;
+
+    if (pattern.test(rawUsername)) {
+        // Split the username into name and timestamp
+        const [name, timestamp] = rawUsername.split('-');
+
+        // Check if the name is in the realNames list
+        if (realNames.includes(name)) {
+            // Check if the timestamp is a 6-digit number
+            if (/^\d{6}$/.test(timestamp)) {
+                // Sanitize the username using DOMPurify
+                return DOMPurify.sanitize(rawUsername);
+            }
+        }
+    }
+
+    // Fallback to a generated username if validation fails
+    return generateUsername();
+}
 
 // ------------------- Username Generation -------------------
 function generateUsername() {
@@ -139,6 +162,7 @@ function generateUsername() {
     const day = String(now.getDate()).padStart(2, '0');
     const hour = String(now.getHours()).padStart(2, '0');
     const minute = String(now.getMinutes()).padStart(2, '0');
+    // const millisecond = String(now.getMilliseconds()).padStart(3, '0');
     const timestamp = `${day}${hour}${minute}`;
     return `${selectedName}-${timestamp}`;
 }
