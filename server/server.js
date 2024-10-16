@@ -60,44 +60,62 @@ app.get('*', (req, res) => {
 
 // ------------------- Real Names List -------------------
 const realNames = [
-    // **Alice to Zoe** (English Female Names)
-    'Alice', 'Amanda', 'Andrea', 'Angela', 'Annabelle', 'Ashley', 'Avery',
-    'Barbara', 'Beatrice', 'Bella', 'Bianca', 'Blake', 'Bonnie',
+    // **English Female Names**
+    'Alice', 'Amanda', 'Andrea', 'Angela', 'Annabelle', 'Ashley', 'Avery', 'Barbara', 'Beatrice', 'Bella', 'Bianca', 'Blake', 'Bonnie',
     'Caitlin', 'Cameron', 'Candace', 'Cara', 'Caroline', 'Cassandra', 'Catherine', 'Charlotte', 'Chloe', 'Claire', 'Clara', 'Cora', 'Courtney', 'Crystal',
     'Daisy', 'Danielle', 'Daphne', 'Darlene', 'Deborah', 'Denise', 'Diana', 'Diane', 'Doris', 'Dorothy',
     'Eleanor', 'Elizabeth', 'Ella', 'Eloise', 'Emily', 'Emma', 'Erin', 'Eva', 'Evelyn',
     'Fiona', 'Frances', 'Gabrielle', 'Giselle', 'Grace', 'Hailey', 'Hannah', 'Harper', 'Holly',
     'Isabella', 'Isla', 'Ivy', 'Jackie', 'Jasmine', 'Jessica', 'Joanna', 'Jocelyn', 'Jordan', 'Josephine', 'Julia', 'June',
-    'Kaitlyn', 'Karen', 'Katherine', 'Kayla', 'Kelsey', 'Kimberly', 'Kylie',
-    'Lauren', 'Leah', 'Lucy', 'Luna', 'Lydia', 'Lila', 'Lillian', 'Lorelei', 'Louise', 'Lucia',
+    'Kaitlyn', 'Karen', 'Katherine', 'Kayla', 'Kelsey', 'Kimberly', 'Kylie', 'Lauren', 'Leah', 'Lucy', 'Luna', 'Lydia', 'Lila', 'Lillian', 'Lorelei', 'Louise', 'Lucia',
     'Madeline', 'Madison', 'Maggie', 'Maria', 'Marina', 'Martha', 'Mary', 'Megan', 'Melanie', 'Melissa', 'Mia', 'Michelle', 'Mila', 'Miranda', 'Morgan',
     'Natalie', 'Nina', 'Noelle', 'Nora', 'Olivia', 'Ophelia', 'Paige', 'Pamela', 'Patricia', 'Penelope', 'Phoebe', 'Piper', 'Rachel', 'Rebecca', 'Riley', 'Rose', 'Ruby', 'Sadie', 'Samantha', 'Sara', 'Sarah', 'Savannah', 'Scarlett', 'Sophie', 'Stella', 'Summer', 'Sydney', 'Taylor', 'Tracy', 'Vanessa', 'Victoria', 'Vivian', 'Wendy', 'Willow', 'Zoey',
 
-    // **Aaron to Zane** (English Male Names)
+    // **English Male Names**
     'Aaron', 'Abel', 'Adam', 'Adrian', 'Aidan', 'Alan', 'Albert', 'Alexander', 'Alfred', 'Andrew', 'Anthony', 'Arthur', 'Austin',
     'Barrett', 'Benjamin', 'Blake', 'Brandon', 'Brian', 'Bruce', 'Bryan', 'Caleb', 'Cameron', 'Carl', 'Charles', 'Christian', 'Christopher', 'Connor', 'Daniel', 'David', 'Dennis', 'Derek', 'Dillon', 'Dominic', 'Donald', 'Douglas', 'Dylan',
-    'Edward', 'Eli', 'Elijah', 'Elliott', 'Emmett', 'Eric', 'Ethan', 'Evan',
-    'Felix', 'Francis', 'Frank', 'Frederick',
-    'Gabriel', 'Gavin', 'George', 'Grant', 'Gregory',
-    'Henry', 'Hudson', 'Hunter',
-    'Isaac', 'Isaiah', 'Ivan',
+    'Edward', 'Eli', 'Elijah', 'Elliott', 'Emmett', 'Eric', 'Ethan', 'Evan', 'Felix', 'Francis', 'Frank', 'Frederick',
+    'Gabriel', 'Gavin', 'George', 'Grant', 'Gregory', 'Henry', 'Hudson', 'Hunter', 'Isaac', 'Isaiah', 'Ivan',
     'Jack', 'Jacob', 'James', 'Jason', 'Jeremy', 'John', 'Jonathan', 'Jordan', 'Joseph', 'Joshua', 'Julian', 'Justin',
-    'Keith', 'Kevin', 'Kyle',
-    'Landon', 'Leo', 'Leonard', 'Louis', 'Lucas', 'Luke', 'Liam',
-    'Marcus', 'Mark', 'Martin', 'Matthew', 'Maxwell', 'Mason', 'Micah', 'Miles', 'Mitchell', 'Nathan', 'Nathaniel', 'Nicholas', 'Noah', 'Oliver', 'Owen',
-    'Patrick', 'Paul', 'Peter', 'Philip', 'Preston',
-    'Quentin',
-    'Rafael', 'Raymond', 'Reed', 'Riley', 'Robert', 'Ryan',
-    'Samuel', 'Sean', 'Sebastian', 'Seth', 'Simon', 'Spencer',
-    'Thomas', 'Timothy', 'Tristan',
-    'Victor', 'Vincent',
-    'William', 'Wyatt',
-    'Xavier',
-    'Zachary', 'Zane', 'Zion',
+    'Keith', 'Kevin', 'Kyle', 'Landon', 'Leo', 'Leonard', 'Louis', 'Lucas', 'Luke', 'Liam', 'Marcus', 'Mark', 'Martin', 'Matthew', 'Maxwell', 'Mason', 'Micah', 'Miles', 'Mitchell', 'Nathan', 'Nathaniel', 'Nicholas', 'Noah', 'Oliver', 'Owen',
+    'Patrick', 'Paul', 'Peter', 'Philip', 'Preston', 'Quentin', 'Rafael', 'Raymond', 'Reed', 'Riley', 'Robert', 'Ryan',
+    'Samuel', 'Sean', 'Sebastian', 'Seth', 'Simon', 'Spencer', 'Thomas', 'Timothy', 'Tristan', 'Victor', 'Vincent', 'William', 'Wyatt', 'Xavier', 'Zachary', 'Zane', 'Zion',
+
+    // **Scandinavian Male and Female Names**
+    'Bjorn', 'Agneta', 'Anja', 'Astrid', 'Birgitta', 'Dagny', 'Freya', 'Greta', 'Ingrid', 'Kirsten', 'Linnea', 'Sigrid', 'Sofia', 'Tove', 'Ulrika', 'Ylva',
+    'Anders', 'Arvid', 'Erik', 'Gunnar', 'Hans', 'Johan', 'Lars', 'Magnus', 'Nils', 'Oskar', 'Rune', 'Sven', 'Thor', 'Viggo',
+
+    // **Slavic Male and Female Names**
+    'Anastasia', 'Daria', 'Ekaterina', 'Irina', 'Ludmila', 'Mila', 'Natalia', 'Olga', 'Svetlana', 'Tatiana', 'Vera', 'Yelena', 'Zoya',
+    'Boris', 'Dmitry', 'Igor', 'Ivan', 'Maxim', 'Nikolai', 'Oleg', 'Pavel', 'Sergei', 'Vladimir', 'Yuri', 'Zdenko',
+
+    // **Spanish Male and Female Names**
+    'Alejandra', 'Ana', 'Blanca', 'Carmen', 'Catalina', 'Dolores', 'Elena', 'Esperanza', 'Isabel', 'Juana', 'Lola', 'Lucia', 'María', 'Paloma', 'Sofía', 'Teresa', 
+    'Alonso', 'Carlos', 'Diego', 'Emilio', 'Felipe', 'Francisco', 'Javier', 'José', 'Luis', 'Manuel', 'Pedro', 'Raul', 'Salvador', 'Santiago', 'Vicente',
+
+    // **African Male and Female Names**
+    'Abeni', 'Amara', 'Ayodele', 'Chiamaka', 'Ebele', 'Imani', 'Kamaria', 'Makena', 'Nia', 'Thandiwe', 'Zola', 
+    'Abioye', 'Chike', 'Dayo', 'Ekwueme', 'Jabari', 'Kwame', 'Malik', 'Ndidi', 'Obi', 'Tariq', 'Zuberi',
+
+    // **East Asian Male and Female Names**
+    'Aiko', 'Akiko', 'Hana', 'Haruka', 'Keiko', 'Mei', 'Nari', 'Sakura', 'Suki', 'Yumi', 'Yuki',
+    'Akira', 'Daichi', 'Hiroshi', 'Kenji', 'Kota', 'Ryota', 'Sho', 'Sora', 'Tadashi', 'Yamato',
+
+    // **Indian Male and Female Names**
+    'Aarti', 'Amrita', 'Anjali', 'Deepika', 'Indira', 'Lakshmi', 'Meera', 'Pooja', 'Radha', 'Saanvi', 'Tara',
+    'Ajay', 'Arjun', 'Dev', 'Karan', 'Manoj', 'Rahul', 'Raj', 'Ravi', 'Sanjay', 'Vikram', 'Yash',
+
+    // **Arabic Male and Female Names**
+    'Amina', 'Asma', 'Fatima', 'Layla', 'Mariam', 'Nadia', 'Noor', 'Salma', 'Yasmin', 'Zainab',
+    'Abdullah', 'Ali', 'Fahad', 'Hassan', 'Ibrahim', 'Khalid', 'Mahmoud', 'Omar', 'Tariq', 'Yusuf',
+
+    // **French Male and Female Names**
+    'Adele', 'Amelie', 'Camille', 'Claudine', 'Elodie', 'Juliette', 'Margot', 'Nathalie', 'Sabine', 'Simone',
+    'Antoine', 'Benoit', 'Etienne', 'Francois', 'Jean', 'Louis', 'Marcel', 'Nicolas', 'Pierre', 'Thierry',
 
     // Additional names...
-    // (Include any other names you'd like)
 ];
+
 
 // ------------------- Input Validation -------------------
 // Function to validate and sanitize the room name
