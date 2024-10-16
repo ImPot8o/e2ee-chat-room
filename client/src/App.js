@@ -133,6 +133,40 @@ const App = () => {
   const [showActiveUsers, setShowActiveUsers] = useState(false);
   const activeUsersRef = useRef(null);
 
+  // Timer for page refresh
+  const [refreshTimer, setRefreshTimer] = useState(null);
+
+  useEffect(() => {
+    const resetTimer = () => {
+      // Clear the existing timer if it exists
+      if (refreshTimer) clearTimeout(refreshTimer);
+      
+      // Set a new timer to refresh the page after 5 minutes
+      const timer = setTimeout(() => {
+        window.location.reload();
+      }, 300000); // 300000 milliseconds = 5 minutes
+
+      setRefreshTimer(timer);
+    };
+
+    // Reset timer on any keyboard activity
+    const handleKeyDown = () => {
+      resetTimer();
+    };
+
+    // Add event listener for keydown
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Initial timer setup
+    resetTimer();
+
+    // Cleanup function to remove event listener and clear timeout
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      if (refreshTimer) clearTimeout(refreshTimer);
+    };
+  }, [refreshTimer]); // Re-run effect if refreshTimer changes
+
   // Derive the default encryption key on component mount
   useEffect(() => {
     const deriveDefaultKey = async () => {

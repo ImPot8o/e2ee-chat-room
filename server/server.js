@@ -149,8 +149,8 @@ function generateUsername() {
 }
 
 // ------------------- Rate Limiting Setup -------------------
-const MESSAGE_RATE_LIMIT = 10; // Max messages allowed
-const MESSAGE_RATE_DURATION = 10 * 1000; // Duration in milliseconds (10 seconds)
+const MESSAGE_RATE_LIMIT = 5; // Max messages allowed
+const MESSAGE_RATE_DURATION = 5 * 1000; // Duration in milliseconds (10 seconds)
 
 // ------------------- Active Usernames Tracking -------------------
 const activeUsernamesByRoom = new Map(); // Maps room name to a Set of usernames
