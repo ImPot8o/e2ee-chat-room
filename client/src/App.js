@@ -477,26 +477,32 @@ const App = () => {
         </form>
       </div>
       <footer>
-        <a
-          href="https://github.com/ImPot8o/e2e-chat-room"
-          className="github-link"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-            alt="GitHub"
-            className="github-icon"
-          ></img>
-        </a>
-        {/* Add the Active Users button to the footer */}
-        <button
-          className="active-users-button-footer"
-          onClick={() => setShowActiveUsers(!showActiveUsers)}
-        >
-          <i className="fas fa-users"></i>
-        </button>
-      </footer>
+  <a
+    href="https://github.com/ImPot8o/e2e-chat-room"
+    className="github-link"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <img
+      src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+      alt="GitHub"
+      className="github-icon"
+    />
+  </a>
+  
+  {/* Add the disclaimer in the center */}
+  <p className="footer-disclaimer">
+    This is a research preview and is not intended for legitimate use. <a href="#">Learn more</a>
+  </p>
+
+  {/* Active Users button */}
+  <button
+    className="active-users-button-footer"
+    onClick={() => setShowActiveUsers(!showActiveUsers)}
+  >
+    <i className="fas fa-users"></i>
+  </button>
+</footer>
     </div>
   );
 };
