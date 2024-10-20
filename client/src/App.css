@@ -119,12 +119,12 @@ footer .active-users-button-footer {
   transform: translateX(-50%);
   font-size: 14px; /* Adjust as needed */
   text-align: center;
-  color: #333; /* Adjust text color */
+  color: #999; /* Adjust text color */
 }
 
 /* Style for the "Learn more" link */
 .footer-disclaimer a {
-  color: #bbbbbb; /* Adjust link color */
+  color: #007bff; /* Adjust link color */
   text-decoration: none;
 }
 
