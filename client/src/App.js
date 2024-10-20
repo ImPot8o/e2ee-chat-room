@@ -476,7 +476,7 @@ const App = () => {
           </button>
         </form>
       </div>
-      <footer>
+<footer>
   <a
     href="https://github.com/ImPot8o/e2e-chat-room"
     className="github-link"
