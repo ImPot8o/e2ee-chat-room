@@ -37,6 +37,10 @@ h5{
   color: #fff;
 }
 
+input, textarea, select, button {
+  font-size: 16px; /* Ensure font-size is 16px or larger */
+}
+
 footer {
   width: 100%;
   position: fixed;
