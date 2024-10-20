@@ -316,6 +316,6 @@ button:disabled {
 
 @media only screen and (max-width: 480px) {
   .messages-container {
-    height: calc(100vh - 450px);
+    height: calc(100vh - 500px);
   }
 }
