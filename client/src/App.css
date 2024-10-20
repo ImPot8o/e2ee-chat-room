@@ -98,16 +98,39 @@ footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  padding: 10px 0; /* Adjust padding as needed */
 }
 
+/* Keep the GitHub link aligned to the left */
 footer .github-link {
   margin-left: 10px;
 }
 
+/* Keep the active users button aligned to the right */
 footer .active-users-button-footer {
   margin-right: 10px;
 }
 
+/* Center the disclaimer text */
+.footer-disclaimer {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px; /* Adjust as needed */
+  text-align: center;
+  color: #333; /* Adjust text color */
+}
+
+/* Style for the "Learn more" link */
+.footer-disclaimer a {
+  color: #007bff; /* Adjust link color */
+  text-decoration: none;
+}
+
+.footer-disclaimer a:hover {
+  text-decoration: underline;
+}
 
 
 .github-icon {
