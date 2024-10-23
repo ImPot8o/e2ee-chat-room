@@ -492,7 +492,7 @@ const App = () => {
   
   {/* Add the disclaimer in the center */}
   <p className="footer-disclaimer">
-    This is a research preview and is not intended for legitimate use. <a href="#">Learn more</a>
+    This is a research preview and is not intended for legitimate use.
   </p>
 
   {/* Active Users button */}
