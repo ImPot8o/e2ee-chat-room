@@ -1,6 +1,6 @@
 // App.js
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import DOMPurify from 'dompurify';
 import Cookies from 'js-cookie';
