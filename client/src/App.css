@@ -189,7 +189,7 @@ footer .active-users-button-footer {
 
 .settings-container {
   position: relative;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .settings-button {
@@ -197,7 +197,7 @@ footer .active-users-button-footer {
   border: none;
   color: #fff;
   font-size: 20px;
-  margin-right: 10px;
+  margin-right: 5px;
   cursor: pointer;
 }
 
