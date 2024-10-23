@@ -103,7 +103,8 @@ footer {
   align-items: center;
   justify-content: space-between;
   position: relative;
-  padding: 10px 0; /* Adjust padding as needed */
+  padding: -30px 0px -30px 0; /* Adjust padding as needed */
+  margin: -30px 0px -20px 0;
 }
 
 /* Keep the GitHub link aligned to the left */
