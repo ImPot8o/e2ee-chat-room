@@ -17,20 +17,12 @@
   },
   "homepage": "https://github.com/ImPot8o/pot8o#readme",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.6.0",
-    "crypto-js": "^4.2.0",
     "dompurify": "^2.5.7",
     "express": "^4.21.0",
-    "js-cookie": "^3.0.5",
     "jsdom": "^21.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "libsodium-wrappers": "^0.7.15",
-    "sanitize-html": "^2.13.1",
     "socket.io": "^4.8.0",
-    "socket.io-client": "^4.8.0",
     "winston": "^3.14.2",
-    "winston-daily-rotate-file": "^5.0.0",
-    "ws": "^8.18.0"
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "description": ""
 }
